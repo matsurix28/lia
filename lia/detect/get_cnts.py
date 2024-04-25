@@ -2,9 +2,10 @@
 
 import cv2
 
+
 def get_cnts(img, min_ratio=100):
     """Get contours list from binary image.
-    
+
     Parameters
     ----------
     img : numpy.ndarray

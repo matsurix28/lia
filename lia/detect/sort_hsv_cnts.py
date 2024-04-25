@@ -2,8 +2,10 @@
 
 import cv2
 import numpy as np
-from .get_cnts import get_cnts
+
 from .evaluate_noise import evaluate_noise
+from .get_cnts import get_cnts
+
 
 def sort_hsv_cnts(img, thresh=60, blank_ratio=98, noise_ratio_thresh=50) -> list:
     """Sort H, S, and V in order of clarity of leaf outline.
@@ -50,4 +52,4 @@ def sort_hsv_cnts(img, thresh=60, blank_ratio=98, noise_ratio_thresh=50) -> list
         sorted_cnts_list = [r[1] for r in noise_list]
         return sorted_cnts_list
     else:
-        raise ValueError('No contours were detected.')
+        raise ValueError("No contours were detected.")

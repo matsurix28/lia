@@ -1,8 +1,9 @@
 """Extract leaf from an image."""
 
-from .sort_hsv_cnts import sort_hsv_cnts
 from .get_center_object import get_center_object
 from .get_diff_ellipse import get_diff_ellipse
+from .sort_hsv_cnts import sort_hsv_cnts
+
 
 def extract_leaf(img, thresh=30):
     """Get contours of leaf candidate.
@@ -25,8 +26,8 @@ def extract_leaf(img, thresh=30):
         If there are no centered contours.
     ValueError
         If leaf shape contours could not be detected.
-    """    
-    
+    """
+
     # Sort H, S, and V in order of clarity of leaf outline, and find contours from each
     try:
         cnts_list = sort_hsv_cnts(img, thresh)
@@ -43,7 +44,7 @@ def extract_leaf(img, thresh=30):
             center_cnt_list.append(center_cnt)
     # Whether contour is leaf or not.
     if len(center_cnt_list) == 0:
-        raise ValueError('There are no centered contours.')
+        raise ValueError("There are no centered contours.")
     leaf_candidates = []
     for cnt in center_cnt_list:
         try:
@@ -53,5 +54,5 @@ def extract_leaf(img, thresh=30):
         else:
             leaf_candidates.append(cnt)
     if len(leaf_candidates) == 0:
-        raise ValueError('Leaf shape contours could not be detected.')
+        raise ValueError("Leaf shape contours could not be detected.")
     return leaf_candidates

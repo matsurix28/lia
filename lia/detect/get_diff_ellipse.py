@@ -1,6 +1,8 @@
+"""Get difference from approximate ellipse."""
 
-import numpy as np
 import cv2
+import numpy as np
+
 
 def get_diff_ellipse(img, cnt, diff_size=20, error_rate=5):
     """Get difference from approximate ellipse.
@@ -26,7 +28,7 @@ def get_diff_ellipse(img, cnt, diff_size=20, error_rate=5):
         THe approximation is incorrect, too far.
     ValueError
         Approximate ellipse extend beyond the image.
-    """    
+    """
 
     ellipse = cv2.fitEllipse(cnt)
     height, width = img.shape[:2]
@@ -43,12 +45,13 @@ def get_diff_ellipse(img, cnt, diff_size=20, error_rate=5):
     ellipse_area = np.sum(img_ellipse) / 255 / 3
     # Whether the ellipse extends beyond the image or not.
     size_error = 1 + (error_rate / 100)
-    if ((np.abs(height / 2 - y) + (ellipse_height / 2)) < (height / 2 * size_error)) and \
-       ((np.abs(width / 2 - x) + (ellipse_width / 2)) < (width / 2 * size_error)):
+    if (
+        (np.abs(height / 2 - y) + (ellipse_height / 2)) < (height / 2 * size_error)
+    ) and ((np.abs(width / 2 - x) + (ellipse_width / 2)) < (width / 2 * size_error)):
         diff_ratio = abs(int(diff_area / ellipse_area * 100))
         if diff_ratio < diff_size:
             return diff_ratio
         else:
-            raise ValueError('The approximation is incorrect.')
+            raise ValueError("The approximation is incorrect.")
     else:
-        raise ValueError('Approximate ellipses extend well beyond the image.')
+        raise ValueError("Approximate ellipses extend well beyond the image.")

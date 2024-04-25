@@ -3,6 +3,7 @@
 import cv2
 import numpy as np
 
+
 def get_center_object(img, cnts):
     """Obtain the most centered contour in the image.
 
@@ -24,9 +25,9 @@ def get_center_object(img, cnts):
         If there are no contours in input.
     ValueError
         If cannot obtain centered contour.
-    """    
+    """
     if len(cnts) == 0:
-        raise ValueError('There is no contours.')
+        raise ValueError("There is no contours.")
     height, width = img.shape[:2]
     center = np.array([int(width / 2), int(height / 2)])
     min_dist = None
@@ -34,8 +35,8 @@ def get_center_object(img, cnts):
     is_first = True
     for cnt in cnts:
         moment = cv2.moments((cnt))
-        cx = int(moment['m10'] / moment['m00'])
-        cy = int(moment['m01'] / moment['m00'])
+        cx = int(moment["m10"] / moment["m00"])
+        cy = int(moment["m01"] / moment["m00"])
         center_cnt = np.array([cx, cy])
         dist = np.linalg.norm(center - center_cnt)
         if is_first:
@@ -48,5 +49,4 @@ def get_center_object(img, cnts):
     if main_obj is not None:
         return main_obj
     else:
-        raise ValueError('Could not find the central object.')
-        
+        raise ValueError("Could not find the central object.")

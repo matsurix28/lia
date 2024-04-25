@@ -2,9 +2,10 @@
 
 import cv2
 
+
 def evaluate_noise(img, canny_thr1=100, canny_thr2=200, noise_thresh=1000):
     """Evaluate the amount of noise.
-    
+
     Parameters
     ----------
     img : numpy.ndarray
@@ -22,7 +23,9 @@ def evaluate_noise(img, canny_thr1=100, canny_thr2=200, noise_thresh=1000):
         Number of noise.
     """
     img_canny = cv2.Canny(img, canny_thr1, canny_thr2)
-    cnts_list, _ = cv2.findContours(img_canny, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cnts_list, _ = cv2.findContours(
+        img_canny, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+    )
     height, width = img.shape[:2]
     area = height * width
     max_noise = area / noise_thresh
