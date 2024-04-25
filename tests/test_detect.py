@@ -12,7 +12,8 @@ except:
     from lia.detect.evaluate_noise import evaluate_noise
 
 def main():
-    debug_evaluate_noise()
+    num_noise, noise_ratio = debug_evaluate_noise()
+    print('finish')
 
 def debug_get_cnts():
     img = input_img()
