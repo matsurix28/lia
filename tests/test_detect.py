@@ -7,6 +7,7 @@ try:
     from lia.detect.evaluate_noise import evaluate_noise
     from lia.detect.sort_hsv_cnts import sort_hsv_cnts
     from lia.detect.get_diff_ellipse import get_diff_ellipse
+    from lia.detect.extract_leaf import extract_leaf
 except:
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
     from lia.detect.get_cnts import get_cnts
@@ -14,9 +15,10 @@ except:
     from lia.detect.evaluate_noise import evaluate_noise
     from lia.detect.sort_hsv_cnts import sort_hsv_cnts
     from lia.detect.get_diff_ellipse import get_diff_ellipse
+    from lia.detect.extract_leaf import extract_leaf
 
 def main():
-    debug_diff_ellipse()
+    debug_extr_leaf()
     print('finish')
 
 def debug_get_cnts():
@@ -58,6 +60,10 @@ def debug_diff_ellipse():
             diff_area_list.append(diff_area)
     return diff_area_list
 
+def debug_extr_leaf():
+    img = input_img()
+    leaf_candidate = extract_leaf(img)
+    return leaf_candidate
 
 def input_img():
     img = cv2.imread('example/input_data/1-L.JPG')

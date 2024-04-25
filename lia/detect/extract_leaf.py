@@ -22,16 +22,14 @@ def extract_leaf(img, thresh=30):
     # Whether contour is leaf or not.
     if len(center_cnt_list) == 0:
         raise ValueError('There are no centered contours.')
-    leaf_shape_list = []
+    leaf_candidates = []
     for cnt in center_cnt_list:
         try:
             diff_ellipse = get_diff_ellipse(img, cnt)
         except:
             continue
         else:
-            leaf_shape_list.append(cnt)
-    if len(leaf_shape_list) == 0:
+            leaf_candidates.append(cnt)
+    if len(leaf_candidates) == 0:
         raise ValueError('Leaf shape contours could not be detected.')
-    
-
-
+    return leaf_candidates
