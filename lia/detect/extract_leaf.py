@@ -5,6 +5,28 @@ from .get_center_object import get_center_object
 from .get_diff_ellipse import get_diff_ellipse
 
 def extract_leaf(img, thresh=30):
+    """Get contours of leaf candidate.
+
+    Parameters
+    ----------
+    img : numpy.ndarray
+        Input color image.
+    thresh : int, (default: 30)
+        Threshold to get contours.
+
+    Returns
+    -------
+    leaf_candidates: list
+        Contours list of leaf candidate.
+
+    Raises
+    ------
+    ValueError
+        If there are no centered contours.
+    ValueError
+        If leaf shape contours could not be detected.
+    """    
+    
     # Sort H, S, and V in order of clarity of leaf outline, and find contours from each
     try:
         cnts_list = sort_hsv_cnts(img, thresh)
