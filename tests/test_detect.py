@@ -6,15 +6,17 @@ try:
     from lia.detect.get_center_object import get_center_object
     from lia.detect.evaluate_noise import evaluate_noise
     from lia.detect.sort_hsv_cnts import sort_hsv_cnts
+    from lia.detect.get_diff_ellipse import get_diff_ellipse
 except:
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
     from lia.detect.get_cnts import get_cnts
     from lia.detect.get_center_object import get_center_object
     from lia.detect.evaluate_noise import evaluate_noise
     from lia.detect.sort_hsv_cnts import sort_hsv_cnts
+    from lia.detect.get_diff_ellipse import get_diff_ellipse
 
 def main():
-    debug_sort_hsv_cnts()
+    debug_diff_ellipse()
     print('finish')
 
 def debug_get_cnts():
@@ -42,6 +44,20 @@ def debug_sort_hsv_cnts():
     except Exception as e:
         print(e)
     return sorted_cnts_list
+
+def debug_diff_ellipse():
+    img = input_img()
+    cnts = debug_get_cnts()
+    diff_area_list = []
+    for cnt in cnts:
+        try:
+            diff_area = get_diff_ellipse(img, cnt)
+        except Exception as e:
+            print(e)
+        else:
+            diff_area_list.append(diff_area)
+    return diff_area_list
+
 
 def input_img():
     img = cv2.imread('example/input_data/1-L.JPG')
