@@ -30,9 +30,11 @@ def main():
 
 def debug_extr_color():
     img = input_img()
-    min = (0, 50, 50)
+    min = (30, 50, 50)
     max = (90, 255, 255)
-    extract_color(img, min, max, color_format="hsv")
+    cnt = extract_color(img, min, max, color_format="hsv")
+    cv2.drawContours(img, [cnt], 0, (255, 0, 0), 5)
+    cv2.imwrite("tests/output/color_cnt.png", img)
 
 
 def debug_get_cnts():

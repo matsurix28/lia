@@ -4,6 +4,7 @@ import re
 
 import cv2
 
+from .get_center_object import get_center_object
 from .get_cnts import get_cnts
 
 
@@ -18,4 +19,5 @@ def extract_color(img, min, max, color_format="HSV"):
             f'Invalid color format: {color_format}\nPlease select "RGB" or "HSV".'
         )
     cnts = get_cnts(mask)
-    return cnts
+    center = get_center_object(img, cnts)
+    return center
