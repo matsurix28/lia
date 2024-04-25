@@ -1,8 +1,6 @@
 """Evaluate the amount of noise in a binarized image"""
 
 import cv2
-import statistics
-from .get_cnts import get_cnts
 
 def evaluate_noise(img, canny_thr1=100, canny_thr2=200, noise_thresh=1000):
     """Evaluate the amount of noise.

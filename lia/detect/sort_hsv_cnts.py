@@ -2,12 +2,10 @@
 
 import cv2
 import numpy as np
-from ....lia.detect.get_cnts import get_cnts
+from .get_cnts import get_cnts
 from .evaluate_noise import evaluate_noise
 
-NOISE_RATIO_THRESH = 50
-
-def sort_hsv_cnts(img, thresh, blank_ratio=98) -> list:
+def sort_hsv_cnts(img, thresh=60, blank_ratio=98, noise_ratio_thresh=50) -> list:
     """Sort H, S, and V in order of clarity of leaf outline.
 
     Parameters
@@ -28,15 +26,15 @@ def sort_hsv_cnts(img, thresh, blank_ratio=98) -> list:
     ------
     ValueError
         If no contours were detected.
-    """    
+    """
     height, width = img.shape[:2]
     area = height * width
     img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     hsv = cv2.split(img_hsv)
     noise_list = []
     for image in hsv:
-        img_bin = cv2.threshold(image, thresh, 255, cv2.THRESH_BINARY)
-        white = np.sum(img_bin)
+        _, img_bin = cv2.threshold(image, thresh, 255, cv2.THRESH_BINARY)
+        white = int(np.sum(img_bin) / 255)
         black = area - white
         if ((white / area) * 100 > blank_ratio) or ((black / area) * 100 > blank_ratio):
             continue
@@ -44,7 +42,7 @@ def sort_hsv_cnts(img, thresh, blank_ratio=98) -> list:
         if len(cnts_list) == 0:
             continue
         num_noise, noise_ratio = evaluate_noise(image)
-        if noise_ratio > NOISE_RATIO_THRESH:
+        if noise_ratio > noise_ratio_thresh:
             continue
         noise_list.append([num_noise, cnts_list])
     if len(noise_list) > 0:

@@ -5,14 +5,16 @@ try:
     from lia.detect.get_cnts import get_cnts
     from lia.detect.get_center_object import get_center_object
     from lia.detect.evaluate_noise import evaluate_noise
+    from lia.detect.sort_hsv_cnts import sort_hsv_cnts
 except:
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
     from lia.detect.get_cnts import get_cnts
     from lia.detect.get_center_object import get_center_object
     from lia.detect.evaluate_noise import evaluate_noise
+    from lia.detect.sort_hsv_cnts import sort_hsv_cnts
 
 def main():
-    num_noise, noise_ratio = debug_evaluate_noise()
+    debug_sort_hsv_cnts()
     print('finish')
 
 def debug_get_cnts():
@@ -32,6 +34,14 @@ def debug_evaluate_noise():
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     num_noise, noise_ratio = evaluate_noise(img_gray)
     return num_noise, noise_ratio
+
+def debug_sort_hsv_cnts():
+    img = input_img()
+    try:
+        sorted_cnts_list = sort_hsv_cnts(img)
+    except Exception as e:
+        print(e)
+    return sorted_cnts_list
 
 def input_img():
     img = cv2.imread('example/input_data/1-L.JPG')
