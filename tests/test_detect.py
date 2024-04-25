@@ -2,9 +2,11 @@ import os
 import sys
 
 import cv2
+import numpy as np
 
 try:
     from lia.detect.evaluate_noise import evaluate_noise
+    from lia.detect.extract_color import extract_color
     from lia.detect.extract_leaf import extract_leaf
     from lia.detect.get_center_object import get_center_object
     from lia.detect.get_cnts import get_cnts
@@ -13,6 +15,7 @@ try:
 except:
     sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
     from lia.detect.evaluate_noise import evaluate_noise
+    from lia.detect.extract_color import extract_color
     from lia.detect.extract_leaf import extract_leaf
     from lia.detect.get_center_object import get_center_object
     from lia.detect.get_cnts import get_cnts
@@ -21,8 +24,15 @@ except:
 
 
 def main():
-    debug_extr_leaf()
+    debug_extr_color()
     print("finish")
+
+
+def debug_extr_color():
+    img = input_img()
+    min = (0, 50, 50)
+    max = (90, 255, 255)
+    extract_color(img, min, max, color_format="hsv")
 
 
 def debug_get_cnts():

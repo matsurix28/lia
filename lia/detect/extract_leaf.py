@@ -29,10 +29,7 @@ def extract_leaf(img, thresh=30):
     """
 
     # Sort H, S, and V in order of clarity of leaf outline, and find contours from each
-    try:
-        cnts_list = sort_hsv_cnts(img, thresh)
-    except:
-        raise
+    cnts_list = sort_hsv_cnts(img, thresh)
     # Get most centered contour.
     center_cnt_list = []
     for cnts in cnts_list:
