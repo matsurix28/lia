@@ -4,18 +4,54 @@ import re
 
 import cv2
 
-from lia.basic.get import get_center_object, get_cnts, get_hsv_cnts
+from lia.basic.get import (
+    BLANK_RATIO,
+    CANNY_THRESH1,
+    CANNY_THRESH2,
+    LEAF_COLOR_FORMAT,
+    LEAF_COLOR_LOWER,
+    LEAF_COLOR_UPPER,
+    MIN_CNTS_RATIO,
+    NOISE_RATIO_THRESH,
+    NOISE_THRESH,
+    THRESH,
+    get_center_object,
+    get_cnts,
+    get_hsv_cnts,
+    get_in_color_range,
+)
 
 
-def extract_leaf_by_thresh(img, thresh=30):
-    """Get contours of leaf candidate.
+def extract_leaf_by_thresh(
+    img,
+    thresh=THRESH,
+    blank_ratio=BLANK_RATIO,
+    noise_ratio_thresh=NOISE_RATIO_THRESH,
+    min_cnts_ratio=MIN_CNTS_RATIO,
+    canny_thresh1=CANNY_THRESH1,
+    canny_thresh2=CANNY_THRESH2,
+    noise_thresh=NOISE_THRESH,
+):
+    """Extract contours of leaf from an image by using threshold.
 
     Parameters
     ----------
     img : numpy.ndarray
-        Input color image.
-    thresh : int, (default: 30)
-        Threshold to get contours.
+        Input image.
+    thresh : int, optional
+        Threshold of contours.
+    blank_ratio : int, optional
+        Max ratio of blank area.
+    noise_ratio_thresh : int, optional
+        Threshold of noise contours.
+    min_cnts_ratio : int, optional
+        Ratio of minimum contours size.
+    canny_thresh1 : int, optional
+        Threshold 1 for canny.
+    canny_thresh2 : int, optional
+        Threshold 2 for canny.
+    noise_thresh : int, optional
+        Threshold for contours of noise.
 
     Returns
     -------
@@ -31,7 +67,16 @@ def extract_leaf_by_thresh(img, thresh=30):
     """
 
     # Sort H, S, and V in order of clarity of leaf outline, and find contours from each
-    cnts_list = get_hsv_cnts(img, thresh)
+    cnts_list = get_hsv_cnts(
+        img,
+        thresh=thresh,
+        blank_ratio=blank_ratio,
+        noise_ratio_thresh=noise_ratio_thresh,
+        min_cnts_ratio=min_cnts_ratio,
+        canny_thresh1=canny_thresh1,
+        canny_thresh2=canny_thresh2,
+        noise_thresh=noise_thresh,
+    )
     # Get most centered contour.
     center_cnt_list = []
     for cnts in cnts_list:
@@ -57,18 +102,24 @@ def extract_leaf_by_thresh(img, thresh=30):
     return leaf_candidates
 
 
-def extract_leaf_by_color(img, min, max, color_format="HSV"):
+def extract_leaf_by_color(
+    img,
+    lower=LEAF_COLOR_LOWER,
+    upper=LEAF_COLOR_UPPER,
+    color_format=LEAF_COLOR_FORMAT,
+    min_cnts_ratio=MIN_CNTS_RATIO,
+):
     """Extract leaf from image by color range.
 
     Parameters
     ----------
     img : numpy.ndarray
         Input color image.
-    min : tuple
+    lower : (int, int, int)
         Lower of color.
-    max : tuple
-        Upper of color. (ex. (50, 100, 200))
-    color_format : str, (default: "HSV")
+    max : (int, int, int)
+        Upper of color.
+    color_format : str, optional
         Color format, HSV or RGB.
 
     Returns
@@ -81,15 +132,7 @@ def extract_leaf_by_color(img, min, max, color_format="HSV"):
     ValueError
         If invalid color format.
     """
-    if color_format.lower() == "hsv":
-        img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        mask = cv2.inRange(img_hsv, min, max)
-    elif re.match("bgr|rgb", color_format.lower()):
-        mask = cv2.inRange(img, min, max)
-    else:
-        raise ValueError(
-            f'Invalid color format: {color_format}\nPlease select "RGB" or "HSV".'
-        )
-    cnts = get_cnts(mask)
+    mask = get_in_color_range(img, lower=lower, upper=upper, color_format=color_format)
+    cnts = get_cnts(mask, min_cnts_ratio=min_cnts_ratio)
     center = get_center_object(img, cnts)
     return center
