@@ -1,11 +1,16 @@
 """Extract leaf from an image."""
 
+import re
+
+import cv2
+
 from .get_center_object import get_center_object
+from .get_cnts import get_cnts
 from .get_diff_ellipse import get_diff_ellipse
 from .sort_hsv_cnts import sort_hsv_cnts
 
 
-def extract_leaf(img, thresh=30):
+def by_thresh(img, thresh=30):
     """Get contours of leaf candidate.
 
     Parameters
@@ -53,3 +58,41 @@ def extract_leaf(img, thresh=30):
     if len(leaf_candidates) == 0:
         raise ValueError("Leaf shape contours could not be detected.")
     return leaf_candidates
+
+
+def by_color(img, min, max, color_format="HSV"):
+    """Extract leaf from image by color range.
+
+    Parameters
+    ----------
+    img : numpy.ndarray
+        Input color image.
+    min : tuple
+        Lower of color.
+    max : tuple
+        Upper of color. (ex. (50, 100, 200))
+    color_format : str, (default: "HSV")
+        Color format, HSV or RGB.
+
+    Returns
+    -------
+    center : list
+        Most centered leaf contours.
+
+    Raises
+    ------
+    ValueError
+        If invalid color format.
+    """
+    if color_format.lower() == "hsv":
+        img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        mask = cv2.inRange(img_hsv, min, max)
+    elif re.match("bgr|rgb", color_format.lower()):
+        mask = cv2.inRange(img, min, max)
+    else:
+        raise ValueError(
+            f'Invalid color format: {color_format}\nPlease select "RGB" or "HSV".'
+        )
+    cnts = get_cnts(mask)
+    center = get_center_object(img, cnts)
+    return center

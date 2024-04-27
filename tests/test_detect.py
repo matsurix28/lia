@@ -6,8 +6,8 @@ import numpy as np
 
 try:
     from lia.detect.evaluate_noise import evaluate_noise
-    from lia.detect.extract_color import extract_color
-    from lia.detect.extract_leaf import extract_leaf
+    from lia.detect.extract_leaf import by_thresh
+    from lia.detect.extract_leaf_bycolor import extract_color
     from lia.detect.get_center_object import get_center_object
     from lia.detect.get_cnts import get_cnts
     from lia.detect.get_diff_ellipse import get_diff_ellipse
@@ -15,8 +15,8 @@ try:
 except:
     sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
     from lia.detect.evaluate_noise import evaluate_noise
-    from lia.detect.extract_color import extract_color
-    from lia.detect.extract_leaf import extract_leaf
+    from lia.detect.extract_leaf import by_thresh
+    from lia.detect.extract_leaf_bycolor import extract_color
     from lia.detect.get_center_object import get_center_object
     from lia.detect.get_cnts import get_cnts
     from lia.detect.get_diff_ellipse import get_diff_ellipse
@@ -83,7 +83,7 @@ def debug_diff_ellipse():
 
 def debug_extr_leaf():
     img = input_img()
-    leaf_candidate = extract_leaf(img)
+    leaf_candidate = by_thresh(img)
     return leaf_candidate
 
 
