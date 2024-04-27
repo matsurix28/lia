@@ -5,26 +5,20 @@ import cv2
 import numpy as np
 
 try:
-    from lia.detect.evaluate_noise import evaluate_noise
-    from lia.detect.extract_leaf import by_thresh
+    from lia.basic.get_hsv_cnts import get_hsv_cnts
+    from lia.basic.get_noise import get_noise
+    from lia.detect.detect_leaf import extrac_leaf_by_thresh
     from lia.detect.extract_leaf_bycolor import extract_color
     from lia.detect.get_center_object import get_center_object
     from lia.detect.get_cnts import get_cnts
     from lia.detect.get_diff_ellipse import get_diff_ellipse
-    from lia.detect.sort_hsv_cnts import sort_hsv_cnts
 except:
     sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-    from lia.detect.evaluate_noise import evaluate_noise
-    from lia.detect.extract_leaf import by_thresh
-    from lia.detect.extract_leaf_bycolor import extract_color
-    from lia.detect.get_center_object import get_center_object
-    from lia.detect.get_cnts import get_cnts
-    from lia.detect.get_diff_ellipse import get_diff_ellipse
-    from lia.detect.sort_hsv_cnts import sort_hsv_cnts
+    import lia
 
 
 def main():
-    debug_extr_color()
+    debug_sort_hsv_cnts()
     print("finish")
 
 
@@ -54,16 +48,17 @@ def debug_center_object():
 def debug_evaluate_noise():
     img = input_img()
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    num_noise, noise_ratio = evaluate_noise(img_gray)
+    num_noise, noise_ratio = get_noise(img_gray)
     return num_noise, noise_ratio
 
 
 def debug_sort_hsv_cnts():
     img = input_img()
     try:
-        sorted_cnts_list = sort_hsv_cnts(img)
+        sorted_cnts_list = get_hsv_cnts(img)
     except Exception as e:
         print(e)
+    print(sorted_cnts_list)
     return sorted_cnts_list
 
 
@@ -83,7 +78,7 @@ def debug_diff_ellipse():
 
 def debug_extr_leaf():
     img = input_img()
-    leaf_candidate = by_thresh(img)
+    leaf_candidate = extrac_leaf_by_thresh(img)
     return leaf_candidate
 
 
