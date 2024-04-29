@@ -37,7 +37,7 @@ def extract_leaf_by_thresh(
     img : numpy.ndarray
         Input image.
     thresh : int, optional
-        Threshold of contours.
+        Threshold to detect contours.
     blank_ratio : int, optional
         Max ratio of blank area.
     noise_ratio_thresh : int, optional

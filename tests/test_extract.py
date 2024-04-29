@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from lia.detect.extract import ExtractLeaf
@@ -11,6 +11,7 @@ def main():
 
 def test_receive_kwargs():
     extr = ExtractLeaf()
+    extr.set_param()
     extr.set_param(nai=60, leaf_color_format="RGB", diff_ellipse_size=528)
     print("owari")
 

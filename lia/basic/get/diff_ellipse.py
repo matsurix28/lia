@@ -1,11 +1,14 @@
 import cv2
 import numpy as np
 
-from .consts import DIFF_ELLIPSE_SIZE, ERROR_ELLIPSE
+from .consts import BEYOND_ERROR_ELLIPSE, DIFF_ELLIPSE_SIZE
 
 
 def get_diff_ellipse(
-    img, cnt, diff_ellipse_size=DIFF_ELLIPSE_SIZE, error_rate=ERROR_ELLIPSE
+    img,
+    cnt,
+    diff_ellipse_size=DIFF_ELLIPSE_SIZE,
+    beyond_error_rate=BEYOND_ERROR_ELLIPSE,
 ):
     """Get difference from approximate ellipse.
 
@@ -15,7 +18,10 @@ def get_diff_ellipse(
         Input image.
     cnt : list
         List of contour point.
-    diff_size : float (default: 0.2)
+    diff_ellipse_size : int
+        Tolerance for difference between approximate ellipse and contour.
+    beyond_error_ellipse : int
+        Percentage of approximate ellipses that extend beyond the image.
 
     Returns
     -------
@@ -46,7 +52,7 @@ def get_diff_ellipse(
     diff_area = int(np.sum(img_xor) / 255 / 3)
     ellipse_area = np.sum(img_ellipse) / 255 / 3
     # Whether the ellipse extends beyond the image or not.
-    size_error = 1 + (error_rate / 100)
+    size_error = 1 + (beyond_error_rate / 100)
     if (
         (np.abs(height / 2 - y) + (ellipse_height / 2)) < (height / 2 * size_error)
     ) and ((np.abs(width / 2 - x) + (ellipse_width / 2)) < (width / 2 * size_error)):
