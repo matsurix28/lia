@@ -1,6 +1,7 @@
 import cv2
 
-from . import MIN_CNTS_RATIO
+# from . import MIN_CNTS_RATIO
+from .consts import MIN_CNTS_RATIO
 
 
 def get_cnts(img, min_cnts_ratio=MIN_CNTS_RATIO):

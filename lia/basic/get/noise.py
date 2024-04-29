@@ -1,6 +1,6 @@
 import cv2
 
-from . import CANNY_THRESH1, CANNY_THRESH2, NOISE_THRESH
+from .consts import CANNY_THRESH1, CANNY_THRESH2, NOISE_THRESH
 
 
 def get_noise(

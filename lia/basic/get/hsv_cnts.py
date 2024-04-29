@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from . import (
+from .consts import (
     BLANK_RATIO,
     CANNY_THRESH1,
     CANNY_THRESH2,

@@ -2,7 +2,7 @@ import re
 
 import cv2
 
-from . import LEAF_COLOR_FORMAT, LEAF_COLOR_LOWER, LEAF_COLOR_UPPER
+from .consts import LEAF_COLOR_FORMAT, LEAF_COLOR_LOWER, LEAF_COLOR_UPPER
 
 
 def get_in_color_range(

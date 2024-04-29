@@ -1,10 +1,12 @@
 """Extract leaf from an image."""
 
-import re
-
-import cv2
-
 from lia.basic.get import (
+    get_center_object,
+    get_cnts,
+    get_hsv_cnts,
+    get_in_color_range,
+)
+from lia.basic.get.consts import (
     BLANK_RATIO,
     CANNY_THRESH1,
     CANNY_THRESH2,
@@ -15,10 +17,6 @@ from lia.basic.get import (
     NOISE_RATIO_THRESH,
     NOISE_THRESH,
     THRESH,
-    get_center_object,
-    get_cnts,
-    get_hsv_cnts,
-    get_in_color_range,
 )
 
 
