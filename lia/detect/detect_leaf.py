@@ -3,13 +3,16 @@
 from lia.basic.get import (
     get_center_object,
     get_cnts,
+    get_diff_ellipse,
     get_hsv_cnts,
     get_in_color_range,
 )
 from lia.basic.get.consts import (
+    BEYOND_ERROR_ELLIPSE,
     BLANK_RATIO,
     CANNY_THRESH1,
     CANNY_THRESH2,
+    DIFF_ELLIPSE_SIZE,
     LEAF_COLOR_FORMAT,
     LEAF_COLOR_LOWER,
     LEAF_COLOR_UPPER,
@@ -90,7 +93,9 @@ def extract_leaf_by_thresh(
     leaf_candidates = []
     for cnt in center_cnt_list:
         try:
-            diff_ellipse = diff_ellipse(img, cnt)
+            diff_ellipse = get_diff_ellipse(
+                img, cnt, DIFF_ELLIPSE_SIZE, BEYOND_ERROR_ELLIPSE
+            )
         except:
             continue
         else:

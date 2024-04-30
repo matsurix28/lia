@@ -21,6 +21,8 @@ from lia.detect import extract_leaf_by_color, extract_leaf_by_thresh
 
 
 class ExtractLeaf:
+    """Extract leaf contours from image."""
+
     def __init__(self):
         # Set default value
         self.min_cnts_ratio = MIN_CNTS_RATIO
@@ -36,7 +38,7 @@ class ExtractLeaf:
         self.leaf_color_lower = LEAF_COLOR_LOWER
         self.leaf_color_upper = LEAF_COLOR_UPPER
 
-    def __draw_cnts(self, img, cnts):
+    def __draw_cnts_area(self, img, cnt):
         """Draw contours.
 
         Parameters
@@ -51,14 +53,31 @@ class ExtractLeaf:
         [numpy.ndarray]
             Images with contours drawn.
         """
-        imgs = []
-        for cnt in cnts:
-            res_img = img.copy()
-            cv2.drawContours(res_img, [cnt], -1, (0, 0, 255), 3)
-            imgs.append(res_img)
-        return imgs
+        mask = np.zeros(img.shape, np.uint8)
+        cv2.drawContours(mask, [cnt], -1, (255, 255, 255), -1)
+        res_img = cv2.bitwise_and(img, mask)
+        return res_img
 
     def __input_img(self, input_path):
+        """Input image by cv2 format.
+
+        Parameters
+        ----------
+        input_path : str
+            Input image path.
+
+        Returns
+        -------
+        img : numpy.ndarray
+            cv2 format image.
+
+        Raises
+        ------
+        TypeError
+            if input is not image file.
+        ValueError
+            No such file.
+        """
         if os.path.isfile(input_path):
             img = cv2.imread(input_path)
             if not isinstance(img, np.ndarray):
@@ -70,6 +89,20 @@ class ExtractLeaf:
             raise ValueError(f"Cannot access '{input_path}': No such file or directory")
 
     def by_thresh(self, input_path):
+        """Extract leaf by detecting contours.
+
+        Parameters
+        ----------
+        input_path : str
+            Input image path.
+
+        Returns
+        -------
+        leaf_cnt_imgs : [numpy.ndarray, ...]
+            List of images depicting the detected leaf contour candidates.
+        leaf_cnt_candidates : [(array[[[int, int]], ...], ...), ...]
+            Contours list of leaf candidates.
+        """
         img = self.__input_img(input_path)
         leaf_cnt_candidates = extract_leaf_by_thresh(
             img,
@@ -81,10 +114,28 @@ class ExtractLeaf:
             self.canny_thresh2,
             self.noise_ratio_thresh,
         )
-        leaf_cnt_imgs = self.__draw_cnts(img, leaf_cnt_candidates)
+        leaf_cnt_imgs = []
+        for cnt in leaf_cnt_candidates:
+            leaf_img = self.__draw_cnts_area(img, cnt)
+            leaf_cnt_imgs.append(leaf_img)
+        # leaf_cnt_imgs = self.__draw_cnts_area(img, leaf_cnt_candidates)
         return leaf_cnt_imgs, leaf_cnt_candidates
 
     def by_color(self, input_path):
+        """Extract leaf by color range.
+
+        Parameters
+        ----------
+        input_path : str
+            Input image path.
+
+        Returns
+        -------
+        leaf_cnt_img : numpy.ndarray
+            Image of a leaf outline drawn.
+        leaf_cnt : (array[[[int, int]],...])
+            Leaf contours.
+        """
         img = self.__input_img(input_path)
         leaf_cnt = extract_leaf_by_color(
             img,
@@ -93,7 +144,7 @@ class ExtractLeaf:
             self.leaf_color_format,
             self.min_cnts_ratio,
         )
-        leaf_cnt_img = self.__draw_cnts(img, [leaf_cnt])
+        leaf_cnt_img = self.__draw_cnts_area(img, leaf_cnt)
         return leaf_cnt_img, leaf_cnt
 
     def set_param(self, **kwargs):

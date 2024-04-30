@@ -11,8 +11,7 @@ def main():
 
 def test_receive_kwargs():
     extr = ExtractLeaf()
-    extr.set_param()
-    extr.set_param(nai=60, leaf_color_format="RGB", diff_ellipse_size=528)
+    extr.by_color("example/input_data/1-L.JPG")
     print("owari")
 
 
