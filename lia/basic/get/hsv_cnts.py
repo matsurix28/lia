@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+from .cnts import get_cnts
 from .consts import (
     BLANK_RATIO,
     CANNY_THRESH1,
@@ -10,7 +11,6 @@ from .consts import (
     NOISE_THRESH,
     THRESH,
 )
-from .cnts import get_cnts
 from .noise import get_noise
 
 
@@ -45,6 +45,7 @@ def get_hsv_cnts(
     ValueError
         If no contours were detected.
     """
+    print(thresh)
     height, width = img.shape[:2]
     area = height * width
     img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)

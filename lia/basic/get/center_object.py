@@ -33,8 +33,11 @@ def get_center_object(img, cnts):
     is_first = True
     for cnt in cnts:
         moment = cv2.moments((cnt))
-        cx = int(moment["m10"] / moment["m00"])
-        cy = int(moment["m01"] / moment["m00"])
+        try:
+            cx = int(moment["m10"] / moment["m00"])
+            cy = int(moment["m01"] / moment["m00"])
+        except:
+            continue
         center_cnt = np.array([cx, cy])
         dist = np.linalg.norm(center - center_cnt)
         if is_first:

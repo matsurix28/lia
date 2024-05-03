@@ -1,5 +1,7 @@
 """Extract leaf from an image."""
 
+from lia.basic import check_background
+from lia.basic.blackening_bg import blackening_bg
 from lia.basic.get import (
     get_center_object,
     get_cnts,
@@ -68,7 +70,9 @@ def extract_leaf_by_thresh(
     ValueError
         If leaf shape contours could not be detected.
     """
-
+    # Check background color.
+    if not check_background.is_black(img):
+        img = blackening_bg(img)
     # Sort H, S, and V in order of clarity of leaf outline, and find contours from each
     cnts_list = get_hsv_cnts(
         img,

@@ -179,7 +179,7 @@ class ExtractLeaf:
             Upper of color range.
         """
         for key, value in kwargs.items():
-            key_exist_cmd = f"is_key = self.{key})"
+            key_exist_cmd = f"is_key = self.{key}"
             try:
                 exec(key_exist_cmd)
             except:
