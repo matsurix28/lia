@@ -17,7 +17,8 @@ from lia.basic.get.consts import (
     NOISE_THRESH,
     THRESH,
 )
-from lia.detect import extract_leaf_by_color, extract_leaf_by_thresh
+from lia.detect import extract_fvfm_leaf, extract_leaf_by_color, extract_leaf_by_thresh
+from lia.detect.detect_fvfm import BAR_AREA_RATIO, THRESH
 
 
 class ExtractLeaf:
@@ -188,3 +189,10 @@ class ExtractLeaf:
             elif type(value) == int:
                 exec_cmd = f"self.{key} = {value}"
             exec(exec_cmd)
+
+
+class ExtractFvFm:
+    def leaf(self, input_path):
+        img = cv2.imread(input_path)
+        cnts = extract_fvfm_leaf(img)
+        return cnts

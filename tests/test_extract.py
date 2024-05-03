@@ -6,12 +6,18 @@ from lia.detect.extract import ExtractLeaf
 
 
 def main():
-    test_receive_kwargs()
+    test_extr_fvfm()
 
 
 def test_receive_kwargs():
     extr = ExtractLeaf()
     extr.by_color("example/input_data/1-L.JPG")
+    print("owari")
+
+
+def test_extr_fvfm():
+    extr = ExtractLeaf()
+    extr.by_thresh("example/input_data/1-F.bmp")
     print("owari")
 
 

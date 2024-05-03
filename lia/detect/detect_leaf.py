@@ -32,6 +32,8 @@ def extract_leaf_by_thresh(
     canny_thresh1=CANNY_THRESH1,
     canny_thresh2=CANNY_THRESH2,
     noise_thresh=NOISE_THRESH,
+    diff_ellipse_size=DIFF_ELLIPSE_SIZE,
+    beyond_error_ellipse=BEYOND_ERROR_ELLIPSE,
 ):
     """Extract contours of leaf from an image by using threshold.
 
@@ -94,7 +96,7 @@ def extract_leaf_by_thresh(
     for cnt in center_cnt_list:
         try:
             diff_ellipse = get_diff_ellipse(
-                img, cnt, DIFF_ELLIPSE_SIZE, BEYOND_ERROR_ELLIPSE
+                img, cnt, diff_ellipse_size, beyond_error_ellipse
             )
         except:
             continue
