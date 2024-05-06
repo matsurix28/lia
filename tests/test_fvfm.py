@@ -10,7 +10,7 @@ from lia.detect.extract import ExtractFvFm
 
 
 def main():
-    test_get_bar_area()
+    test_extr_fvfm_leaf()
 
 
 def input():
@@ -30,7 +30,8 @@ def test_get_bar_area():
 
 def test_extr_fvfm_leaf():
     ex = ExtractFvFm()
-    ex.leaf("example/input_data/1-F.bmp")
+    fvfm = ex.get_list("example/input_data/1-F.bmp")
+    print(fvfm)
 
 
 if __name__ == "__main__":

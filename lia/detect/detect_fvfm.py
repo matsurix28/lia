@@ -86,16 +86,16 @@ def calculate_scale(fvfm_value_list):
         raise ValueError("Cannot calculate scale. Not enough value.")
 
 
-def get_bar_area(img, thresh=WHITE_INV_THRESH, bar_area_ratio=BAR_AREA_RATIO):
+def get_bar_area(img, white_inv_thresh=WHITE_INV_THRESH, bar_area_ratio=BAR_AREA_RATIO):
     """Get Fv/Fm scale bar.
 
     Parameters
     ----------
     img : numpy.ndarray
         Input image.
-    thresh : int, optional
-        Threshold kto detect contours.
-    bar_area : int, optional
+    white_inv_thresh : int, optional
+        Threshold of white background.
+    bar_area_ratio : int, optional
         Ratio of minimum bar size.
 
     Returns
@@ -108,7 +108,7 @@ def get_bar_area(img, thresh=WHITE_INV_THRESH, bar_area_ratio=BAR_AREA_RATIO):
     ValueError
         Cannot find scale bar.
     """
-    binary_img = get_white_bg_binary_img(img, thresh)
+    binary_img = get_white_bg_binary_img(img, white_inv_thresh)
     cnts = get_cnts(binary_img, bar_area_ratio)
     img_height = img.shape[0]
     for cnt in cnts:
@@ -120,7 +120,9 @@ def get_bar_area(img, thresh=WHITE_INV_THRESH, bar_area_ratio=BAR_AREA_RATIO):
     raise ValueError("Cannot find scalebar.")
 
 
-def get_fvfm_list(img):
+def get_fvfm_list(
+    img, white_inv_thresh=WHITE_INV_THRESH, bar_area_ratio=BAR_AREA_RATIO
+):
     """Get list of color and Fv/Fm value.
 
     Parameters
@@ -138,7 +140,7 @@ def get_fvfm_list(img):
     ValueError
         Cannot get Fv/Fm value.
     """
-    bar_area = get_bar_area(img)
+    bar_area = get_bar_area(img, white_inv_thresh, bar_area_ratio)
     top = bar_area[1]
     bottom = bar_area[1] + bar_area[3]
     center_x = int(bar_area[0] + (bar_area[2] / 2))

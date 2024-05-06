@@ -11,14 +11,14 @@ def main():
 
 def test_receive_kwargs():
     extr = ExtractLeaf()
-    extr.by_color("example/input_data/1-L.JPG")
+    extr.get_by_color("example/input_data/1-L.JPG")
     print("owari")
 
 
 def test_extr_fvfm():
     extr = ExtractLeaf()
     extr.set_param(thresh=60)
-    extr.by_thresh("example/input_data/1-F.bmp")
+    extr.get_by_thresh("example/input_data/1-F.bmp")
     print("owari")
 
 

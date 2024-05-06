@@ -91,7 +91,7 @@ class ExtractLeaf:
         else:
             raise ValueError(f"Cannot access '{input_path}': No such file or directory")
 
-    def by_thresh(self, input_path):
+    def get_by_thresh(self, input_path):
         """Extract leaf by detecting contours.
 
         Parameters
@@ -127,7 +127,7 @@ class ExtractLeaf:
         # leaf_cnt_imgs = self.__draw_cnts_area(img, leaf_cnt_candidates)
         return leaf_cnt_imgs, leaf_cnt_candidates
 
-    def by_color(self, input_path):
+    def get_by_color(self, input_path):
         """Extract leaf by color range.
 
         Parameters
@@ -201,5 +201,71 @@ class ExtractFvFm:
         self.white_inv_thresh = WHITE_INV_THRESH
         self.bar_area_ratio = BAR_AREA_RATIO
 
-    def leaf(self, input_path):
-        pass
+    def __input_img(self, input_path):
+        """Input image by cv2 format.
+
+        Parameters
+        ----------
+        input_path : str
+            Input image path.
+
+        Returns
+        -------
+        img : numpy.ndarray
+            cv2 format image.
+
+        Raises
+        ------
+        TypeError
+            if input is not image file.
+        ValueError
+            No such file.
+        """
+        if os.path.isfile(input_path):
+            img = cv2.imread(input_path)
+            if not isinstance(img, np.ndarray):
+                raise TypeError(f"'{input_path}' is not an image file")
+            else:
+                self.img_name = os.path.splitext(os.path.basename(input_path))[0]
+                return img
+        else:
+            raise ValueError(f"Cannot access '{input_path}': No such file or directory")
+
+    def get_list(self, input_path):
+        """Get list of Fv/Fm value and color.
+
+        Parameters
+        ----------
+        input_path : str
+            Path of input image.
+
+        Returns
+        -------
+        fvfm_list : [[[int, int, int], int], ...]
+            List of color and Fv/Fm value.
+        """
+        img = self.__input_img(input_path)
+        fvfm_list = get_fvfm_list(img, self.white_inv_thresh, self.bar_area_ratio)
+        return fvfm_list
+
+    def set_param(self, **kwargs):
+        """Set parameter.
+
+        Parameters
+        ----------
+        white_inv_thresh : int
+            Threshold of whtie background.
+        bar_area_ratio : int
+            Ratio of minimum bar size.
+        """
+        for key, value in kwargs.items():
+            key_exist_cmd = f"is_key = self.{key}"
+            try:
+                exec(key_exist_cmd)
+            except:
+                continue
+            if type(value) == str:
+                exec_cmd = f"self.{key} = '{value}'"
+            elif type(value) == int:
+                exec_cmd = f"self.{key} = {value}"
+            exec(exec_cmd)
