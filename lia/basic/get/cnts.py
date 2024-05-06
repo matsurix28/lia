@@ -27,6 +27,20 @@ def get_cnts(img, min_cnts_ratio=MIN_CNTS_RATIO):
 
 
 def get_cnts_white_background(img, min_cnts_ratio=MIN_CNTS_RATIO):
+    """Get contours list from white background image.
+
+    Parameters
+    ----------
+    img : numpy.ndarray
+        Input color image.
+    min_cnts_ratio : int
+        Minimum area ratio (min_area = area / min_ratio).
+
+    Returns
+    -------
+    cnts_list : [(array[[[int, int]], ...], ...), ...]
+        List of contours.
+    """
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img_gray_inv = cv2.bitwise_not(img_gray)
     _, bin = cv2.threshold(img_gray_inv, WHITE_BG_THRESH, 255, cv2.THRESH_BINARY)
