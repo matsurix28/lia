@@ -10,7 +10,7 @@ from lia.detect.extract import ExtractFvFm
 
 
 def main():
-    test_extr_fvfm_leaf()
+    test_get_bar_area()
 
 
 def input():

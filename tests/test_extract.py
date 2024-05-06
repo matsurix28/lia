@@ -18,7 +18,7 @@ def test_receive_kwargs():
 def test_extr_fvfm():
     extr = ExtractLeaf()
     extr.set_param(thresh=60)
-    extr.by_thresh("example/input_data/1-L.JPG")
+    extr.by_thresh("example/input_data/1-F.bmp")
     print("owari")
 
 

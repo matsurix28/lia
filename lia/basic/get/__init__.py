@@ -1,3 +1,4 @@
+from .bin_img import get_white_bg_binary_img
 from .center_object import get_center_object
 from .cnts import get_cnts, get_cnts_white_background
 from .diff_ellipse import get_diff_ellipse

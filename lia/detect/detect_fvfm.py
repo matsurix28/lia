@@ -6,10 +6,19 @@ import cv2
 import easyocr
 import numpy as np
 
-from lia.basic.get import get_center_object, get_cnts, get_diff_ellipse
-from lia.basic.get.consts import BEYOND_ERROR_ELLIPSE, DIFF_ELLIPSE_SIZE, MIN_CNTS_RATIO
+from lia.basic.get import (
+    get_center_object,
+    get_cnts,
+    get_diff_ellipse,
+    get_white_bg_binary_img,
+)
+from lia.basic.get.consts import (
+    BEYOND_ERROR_ELLIPSE,
+    DIFF_ELLIPSE_SIZE,
+    MIN_CNTS_RATIO,
+    WHITE_INV_THRESH,
+)
 
-THRESH = 230
 BAR_AREA_RATIO = 100
 
 
@@ -77,7 +86,7 @@ def calculate_scale(fvfm_value_list):
         raise ValueError("Cannot calculate scale. Not enough value.")
 
 
-def get_bar_area(img, thresh=THRESH, bar_area_ratio=BAR_AREA_RATIO):
+def get_bar_area(img, thresh=WHITE_INV_THRESH, bar_area_ratio=BAR_AREA_RATIO):
     """Get Fv/Fm scale bar.
 
     Parameters
@@ -99,7 +108,7 @@ def get_bar_area(img, thresh=THRESH, bar_area_ratio=BAR_AREA_RATIO):
     ValueError
         Cannot find scale bar.
     """
-    binary_img = get_binary_img(img, thresh)
+    binary_img = get_white_bg_binary_img(img, thresh)
     cnts = get_cnts(binary_img, bar_area_ratio)
     img_height = img.shape[0]
     for cnt in cnts:
@@ -155,25 +164,3 @@ def get_fvfm_list(img):
         return fvfm_list
     else:
         raise ValueError("Cannot get Fv/Fm value.")
-
-
-def get_binary_img(img, thresh=THRESH):
-    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    _, binary_img = cv2.threshold(img_gray, thresh, 255, cv2.THRESH_BINARY_INV)
-    return binary_img
-
-
-def extract_fvfm_leaf(
-    img,
-    thresh=THRESH,
-    min_cnts_ratio=MIN_CNTS_RATIO,
-    diff_ellipse_size=DIFF_ELLIPSE_SIZE,
-    beyond_error_ellipse=BEYOND_ERROR_ELLIPSE,
-):
-    binary_img = get_binary_img(img, thresh)
-    cnts = get_cnts(binary_img, min_cnts_ratio)
-    center_cnt = get_center_object(img, cnts)
-    diff_ellipse = get_diff_ellipse(
-        img, center_cnt, diff_ellipse_size, beyond_error_ellipse
-    )
-    return center_cnt
