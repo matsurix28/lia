@@ -5,6 +5,7 @@ from lia.basic.blackening_bg import blackening_bg
 from lia.basic.get import (
     get_center_object,
     get_cnts,
+    get_cnts_white_background,
     get_diff_ellipse,
     get_hsv_cnts,
     get_in_color_range,
@@ -71,19 +72,20 @@ def extract_leaf_by_thresh(
         If leaf shape contours could not be detected.
     """
     # Check background color.
-    if not check_background.is_black(img):
-        img = blackening_bg(img)
-    # Sort H, S, and V in order of clarity of leaf outline, and find contours from each
-    cnts_list = get_hsv_cnts(
-        img,
-        thresh=thresh,
-        blank_ratio=blank_ratio,
-        noise_ratio_thresh=noise_ratio_thresh,
-        min_cnts_ratio=min_cnts_ratio,
-        canny_thresh1=canny_thresh1,
-        canny_thresh2=canny_thresh2,
-        noise_thresh=noise_thresh,
-    )
+    if check_background.is_black(img):
+        # Sort H, S, and V in order of clarity of leaf outline, and find contours from each
+        cnts_list = get_hsv_cnts(
+            img,
+            thresh=thresh,
+            blank_ratio=blank_ratio,
+            noise_ratio_thresh=noise_ratio_thresh,
+            min_cnts_ratio=min_cnts_ratio,
+            canny_thresh1=canny_thresh1,
+            canny_thresh2=canny_thresh2,
+            noise_thresh=noise_thresh,
+        )
+    else:
+        cnts_list = [get_cnts_white_background(img)]
     # Get most centered contour.
     center_cnt_list = []
     for cnts in cnts_list:

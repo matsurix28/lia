@@ -15,10 +15,12 @@ try:
 except:
     sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
     import lia
+    from lia.basic.get import get_cnts_white_background
+    from lia.detect.detect_leaf import extract_leaf_by_thresh
 
 
 def main():
-    debug_sort_hsv_cnts()
+    debug_extr()
     print("finish")
 
 
@@ -80,6 +82,18 @@ def debug_extr_leaf():
     img = input_img()
     leaf_candidate = extrac_leaf_by_thresh(img)
     return leaf_candidate
+
+
+def debug_extr():
+    img = cv2.imread("example/input_data/1-L.JPG")
+    leaf_candidates = extract_leaf_by_thresh(img)
+    return leaf_candidates
+
+
+def debug_extr_white_bg():
+    img = cv2.imread("example/input_data/1-L.JPG")
+    cnts_list = get_cnts_white_background(img)
+    return cnts_list
 
 
 def input_img():
