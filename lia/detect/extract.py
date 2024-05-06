@@ -16,9 +16,10 @@ from lia.basic.get.consts import (
     NOISE_RATIO_THRESH,
     NOISE_THRESH,
     THRESH,
+    WHITE_BG_THRESH,
 )
-from lia.detect import extract_fvfm_leaf, extract_leaf_by_color, extract_leaf_by_thresh
-from lia.detect.detect_fvfm import BAR_AREA_RATIO, THRESH
+from lia.detect import extract_leaf_by_color, extract_leaf_by_thresh
+from lia.detect.detect_fvfm import BAR_AREA_RATIO, WHITE_INV_THRESH, get_fvfm_list
 
 
 class ExtractLeaf:
@@ -38,6 +39,7 @@ class ExtractLeaf:
         self.leaf_color_format = LEAF_COLOR_FORMAT
         self.leaf_color_lower = LEAF_COLOR_LOWER
         self.leaf_color_upper = LEAF_COLOR_UPPER
+        self.white_bg_thresh = WHITE_BG_THRESH
 
     def __draw_cnts_area(self, img, cnt):
         """Draw contours.
@@ -114,6 +116,9 @@ class ExtractLeaf:
             self.canny_thresh1,
             self.canny_thresh2,
             self.noise_ratio_thresh,
+            self.diff_ellipse_size,
+            self.beyond_error_ellipse,
+            self.white_bg_thresh,
         )
         leaf_cnt_imgs = []
         for cnt in leaf_cnt_candidates:
@@ -192,7 +197,9 @@ class ExtractLeaf:
 
 
 class ExtractFvFm:
+    def __init__(self) -> None:
+        self.white_inv_thresh = WHITE_INV_THRESH
+        self.bar_area_ratio = BAR_AREA_RATIO
+
     def leaf(self, input_path):
-        img = cv2.imread(input_path)
-        cnts = extract_fvfm_leaf(img)
-        return cnts
+        pass

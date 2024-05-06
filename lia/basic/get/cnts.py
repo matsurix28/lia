@@ -26,7 +26,9 @@ def get_cnts(img, min_cnts_ratio=MIN_CNTS_RATIO):
     return cnts_list
 
 
-def get_cnts_white_background(img, min_cnts_ratio=MIN_CNTS_RATIO):
+def get_cnts_white_background(
+    img, white_bg_thresh=WHITE_BG_THRESH, min_cnts_ratio=MIN_CNTS_RATIO
+):
     """Get contours list from white background image.
 
     Parameters
@@ -43,6 +45,6 @@ def get_cnts_white_background(img, min_cnts_ratio=MIN_CNTS_RATIO):
     """
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img_gray_inv = cv2.bitwise_not(img_gray)
-    _, bin = cv2.threshold(img_gray_inv, WHITE_BG_THRESH, 255, cv2.THRESH_BINARY)
+    _, bin = cv2.threshold(img_gray_inv, white_bg_thresh, 255, cv2.THRESH_BINARY)
     cnts_list = get_cnts(bin, min_cnts_ratio)
     return cnts_list

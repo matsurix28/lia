@@ -23,6 +23,7 @@ from lia.basic.get.consts import (
     NOISE_RATIO_THRESH,
     NOISE_THRESH,
     THRESH,
+    WHITE_BG_THRESH,
 )
 
 
@@ -37,6 +38,7 @@ def extract_leaf_by_thresh(
     noise_thresh=NOISE_THRESH,
     diff_ellipse_size=DIFF_ELLIPSE_SIZE,
     beyond_error_ellipse=BEYOND_ERROR_ELLIPSE,
+    white_bg_thresh=WHITE_BG_THRESH,
 ):
     """Extract contours of leaf from an image by using threshold.
 
@@ -85,7 +87,7 @@ def extract_leaf_by_thresh(
             noise_thresh=noise_thresh,
         )
     else:
-        cnts_list = [get_cnts_white_background(img)]
+        cnts_list = [get_cnts_white_background(img, white_bg_thresh, min_cnts_ratio)]
     # Get most centered contour.
     center_cnt_list = []
     for cnts in cnts_list:
