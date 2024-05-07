@@ -3,7 +3,7 @@ import os
 import cv2
 import numpy as np
 
-from lia.basic.get.consts import (
+from lia.basic.get._consts import (
     BEYOND_ERROR_ELLIPSE,
     BLANK_RATIO,
     CANNY_THRESH1,

@@ -6,18 +6,8 @@ import cv2
 import easyocr
 import numpy as np
 
-from lia.basic.get import (
-    get_center_object,
-    get_cnts,
-    get_diff_ellipse,
-    get_white_bg_binary_img,
-)
-from lia.basic.get.consts import (
-    BEYOND_ERROR_ELLIPSE,
-    DIFF_ELLIPSE_SIZE,
-    MIN_CNTS_RATIO,
-    WHITE_INV_THRESH,
-)
+from lia.basic.get import get_cnts, get_white_bg_binary_img
+from lia.basic.get._consts import WHITE_INV_THRESH
 
 BAR_AREA_RATIO = 100
 

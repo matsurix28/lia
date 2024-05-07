@@ -1,7 +1,6 @@
 import cv2
 
-THRESH = 60
-AREA = 0.9
+from ._consts import BACKGROUND_AREA, BACKGROUND_THRESH
 
 
 def is_black(img):
@@ -20,9 +19,9 @@ def is_black(img):
         Background is white.
     """
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    _, bin = cv2.threshold(img_gray, THRESH, 255, cv2.THRESH_BINARY)
+    _, bin = cv2.threshold(img_gray, BACKGROUND_THRESH, 255, cv2.THRESH_BINARY)
     cnts, _ = cv2.findContours(bin, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    std_area = img.shape[0] * img.shape[1] * AREA
+    std_area = img.shape[0] * img.shape[1] * BACKGROUND_AREA
     big = list(filter(lambda x: cv2.contourArea(x) > std_area, cnts))
     if len(big) > 0:
         return False

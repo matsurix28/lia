@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from .consts import BEYOND_ERROR_ELLIPSE, DIFF_ELLIPSE_SIZE
+from ._consts import BEYOND_ERROR_ELLIPSE, DIFF_ELLIPSE_SIZE
 
 
 def get_diff_ellipse(
