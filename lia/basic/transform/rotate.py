@@ -3,6 +3,20 @@ import numpy as np
 
 
 def rotate_horizontal(img, cnts):
+    """Rotate image to be horizontal.
+
+    Parameters
+    ----------
+    img : numpy.ndarray
+        Input image.
+    cnts : [[int, int], ...]
+        Contours of object.
+
+    Returns
+    -------
+    rotated_img : numpy.ndarray
+        Rotated image.
+    """
     center, _, angle = cv2.fitEllipse(cnts)
     rotate_angle = angle - 90
     rotated_img = rotate(img, rotate_angle, center)
@@ -10,6 +24,22 @@ def rotate_horizontal(img, cnts):
 
 
 def rotate(img, angle, center):
+    """Rotate image.
+
+    Parameters
+    ----------
+    img : numpy.ndarray
+        Input image.
+    angle : float
+        Angle of rotation.
+    center : (int, int)
+        Coordinate of center.
+
+    Returns
+    -------
+    rotated_img : numpy.ndarray
+        Rotated image.
+    """
     height, width = img.shape[:2]
     corners = np.array([(0, 0), (width, 0), (width, height), (0, height)])
     radius = np.sqrt(max(np.sum((center - corners) ** 2, axis=1)))
