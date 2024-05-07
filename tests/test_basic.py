@@ -6,17 +6,24 @@ import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from lia.basic.get.size import get_max_size
+from lia.basic.transform.crop import crop
 from lia.basic.transform.rotate import rotate, rotate_horizontal
 from lia.detect import extract_leaf_by_thresh
 
 
 def main():
-    test_max_size()
+    test_crop()
 
 
 def input_img():
     img = cv2.imread("example/input_data/1-F.bmp")
     return img
+
+
+def test_crop():
+    img = input_img()
+    size = (400, 100)
+    crop(img, size, pos_x=100)
 
 
 def test_max_size():
