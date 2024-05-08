@@ -7,17 +7,23 @@ import numpy as np
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from lia.basic.get.size import get_max_size
 from lia.basic.transform.crop import crop
+from lia.basic.transform.move import slide_horizontal
 from lia.basic.transform.rotate import rotate, rotate_horizontal
 from lia.detect import extract_leaf_by_thresh
 
 
 def main():
-    test_crop()
+    test_slide()
 
 
 def input_img():
     img = cv2.imread("example/input_data/1-F.bmp")
     return img
+
+
+def test_slide():
+    img = input_img()
+    slide_img = slide_horizontal(img, -40)
 
 
 def test_crop():

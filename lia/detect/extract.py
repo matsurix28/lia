@@ -3,18 +3,16 @@ import os
 import cv2
 import numpy as np
 
+from lia.basic.evaluate._consts import CANNY_THRESH1, CANNY_THRESH2, NOISE_THRESH
 from lia.basic.get._consts import (
     BEYOND_ERROR_ELLIPSE,
     BLANK_RATIO,
-    CANNY_THRESH1,
-    CANNY_THRESH2,
     DIFF_ELLIPSE_SIZE,
     LEAF_COLOR_FORMAT,
     LEAF_COLOR_LOWER,
     LEAF_COLOR_UPPER,
     MIN_CNTS_RATIO,
     NOISE_RATIO_THRESH,
-    NOISE_THRESH,
     THRESH,
     WHITE_BG_THRESH,
 )

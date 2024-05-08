@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+from lia.basic.evaluate._consts import CANNY_THRESH1, CANNY_THRESH2, NOISE_THRESH
 from lia.basic.evaluate.noise import get_noise
 
 from ._consts import (
