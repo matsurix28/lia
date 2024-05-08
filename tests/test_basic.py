@@ -7,8 +7,8 @@ import numpy as np
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from lia.basic.get.size import get_max_size
 from lia.basic.transform.crop import crop
-from lia.basic.transform.move import slide_horizontal
 from lia.basic.transform.rotate import rotate, rotate_horizontal
+from lia.basic.transform.slide import slide_horizontal
 from lia.detect import extract_leaf_by_thresh
 
 
@@ -23,7 +23,9 @@ def input_img():
 
 def test_slide():
     img = input_img()
-    slide_img = slide_horizontal(img, -40)
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    _, bin = cv2.threshold(img_gray, 30, 255, cv2.THRESH_BINARY)
+    slide_img = slide_horizontal(bin, -40)
 
 
 def test_crop():
