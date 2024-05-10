@@ -1,6 +1,6 @@
 import cv2
 
-from lia.basic.transform.crop import crop
+from lia.basic.transform.crop import crop_center
 
 
 def slide_horizontal(img, distance):
@@ -28,7 +28,7 @@ def slide_horizontal(img, distance):
         raise ValueError("Too large distance.")
     size = (width - abs(distance), height)
     pos_x = distance / 2
-    cropped_img = crop(img, size, pos_x=pos_x)
+    cropped_img = crop_center(img, size, pos_x=pos_x)
     fill_width = abs(distance)
     if distance > 0:
         fill_img = cv2.copyMakeBorder(
