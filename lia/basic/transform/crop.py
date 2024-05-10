@@ -1,4 +1,4 @@
-def crop(img, size, pos_x=0, pos_y=0):
+def crop_center(img, size, pos_x=0, pos_y=0):
     """Crop imgae.
 
     Parameters
@@ -24,4 +24,24 @@ def crop(img, size, pos_x=0, pos_y=0):
         int(height / 2 - size_y / 2 - pos_y) : int(height / 2 + size_y / 2 - pos_y),
         int(width / 2 - size_x / 2 - pos_x) : int(width / 2 + size_x / 2 - pos_x),
     ]
+    return cropped_img
+
+
+def crop_left(img, width):
+    """Crop left.
+
+    Parameters
+    ----------
+    img : numpy.ndarray
+        Input image.
+    width : int
+        Crop width.
+
+    Returns
+    -------
+    cropped_img : numpy.ndarray
+        Cropped image.
+    """
+    height = img.shape[0]
+    cropped_img = img[0:height, 0:width]
     return cropped_img
