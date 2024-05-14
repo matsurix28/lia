@@ -41,3 +41,13 @@ cv2.imwrite("test.png", overlap)
 cv2.imwrite("test.png", overnot)
 cv2.imwrite("test.png", overxor)
 cv2.imwrite("test.png", overor)
+
+
+res1 = {"overlap": 1, "fx": 0.8, "slide": 20}
+res2 = {"overlap": 6, "fx": 0.8, "slide": 60}
+res3 = {"overlap": 0, "fx": 0.6, "slide": 40}
+overlist = []
+overlist.append(res1)
+overlist.append(res2)
+overlist.append(res3)
+res1["overlap"]
