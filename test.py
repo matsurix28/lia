@@ -51,3 +51,12 @@ overlist.append(res1)
 overlist.append(res2)
 overlist.append(res3)
 res1["overlap"]
+
+
+img = cv2.imread("example/input_data/1-L.JPG")
+re_img = cv2.resize(img, dsize=None, fx=0.8, fy=1)
+wid = img.shape[1]
+re_wid = re_img.shape[1]
+diff = wid - re_wid
+fill_img = cv2.copyMakeBorder(re_img, 0, 0, 0, diff, cv2.BORDER_CONSTANT)
+cv2.imwrite("test.png", fill_img)

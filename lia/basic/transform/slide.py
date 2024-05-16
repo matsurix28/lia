@@ -38,4 +38,6 @@ def slide_horizontal(img, distance):
         fill_img = cv2.copyMakeBorder(
             cropped_img, 0, 0, 0, fill_width, cv2.BORDER_CONSTANT
         )
+    else:
+        fill_img = cropped_img
     return fill_img
