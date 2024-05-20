@@ -6,7 +6,10 @@ import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from lia.align.shape import align_shape_horizontal
+from lia.basic.get.size import get_max_size
+from lia.basic.transform.crop import crop_center
 from lia.basic.transform.rotate import rotate_horizontal
+from lia.detect import extract_leaf_by_thresh
 from lia.detect.extract import ExtractLeaf
 
 
@@ -14,12 +17,21 @@ def main():
     leaf, fvfm, leaf_cnt, fvfm_cnt = extr()
     leaf = rotate_horizontal(leaf, leaf_cnt)
     fvfm = rotate_horizontal(fvfm, fvfm_cnt)
-    transhape = align_shape_horizontal(fvfm, leaf, 20, 20)
-    leaf_img = cv2.imread("example/input_data/1-L.JPG")
+    leaf_max_height, max_width = get_max_size(leaf)
+    fvfm_max_height, _ = get_max_size(fvfm)
+    scale = fvfm_max_height / leaf_max_height
+    leaf_re = cv2.resize(leaf, dsize=None, fx=1, fy=scale)
+    fvfm_height = fvfm.shape[0]
+    leaf_width = leaf_re.shape[1]
+    leaf_cro = crop_center(leaf_re, (leaf_width, fvfm_height))
+    transhape = align_shape_horizontal(fvfm, leaf_cro, 30, 20)
+    leaf_img = cv2.imread("example/input_data/test.png")
     fvfm_img = cv2.imread("example/input_data/1-F.bmp")
     leaf_rotated = rotate_horizontal(leaf_img, leaf_cnt)
     fvfm_rotated = rotate_horizontal(fvfm_img, fvfm_cnt)
-    ll = transhape(leaf_rotated)
+    leaf_re_img = cv2.resize(leaf_rotated, dsize=None, fx=1, fy=scale)
+    leaf_cro_img = crop_center(leaf_re_img, (leaf_width, fvfm_height))
+    ll = transhape(leaf_cro_img)
     img_over = cv2.addWeighted(src1=ll, alpha=1, src2=fvfm_rotated, beta=0.3, gamma=0)
     cv2.imwrite("test.png", img_over)
     print("kkk")
