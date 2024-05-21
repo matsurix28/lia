@@ -13,8 +13,9 @@ def get_max_size(img):
     max_width : int
         Max width of object.
     """
-    heights = (img == 255).sum(axis=0)
-    widths = (img == 255).sum(axis=1)
+    thresh = img.max()
+    heights = (img == thresh).sum(axis=0)
+    widths = (img == thresh).sum(axis=1)
     max_height = heights.max()
     max_width = widths.max()
     return max_height, max_width

@@ -19,21 +19,27 @@ def main():
     fvfm = rotate_horizontal(fvfm, fvfm_cnt)
     leaf_max_height, max_width = get_max_size(leaf)
     fvfm_max_height, _ = get_max_size(fvfm)
-    scale = fvfm_max_height / leaf_max_height
-    leaf_re = cv2.resize(leaf, dsize=None, fx=1, fy=scale)
-    fvfm_height = fvfm.shape[0]
-    leaf_width = leaf_re.shape[1]
-    leaf_cro = crop_center(leaf_re, (leaf_width, fvfm_height))
-    transhape = align_shape_horizontal(fvfm, leaf_cro, 30, 20)
+    height_scale = fvfm_max_height / leaf_max_height
+    leaf_width = leaf.shape[1]
+    fvfm_width = fvfm.shape[1]
+    width_scale = fvfm_width / leaf_width
+    leaf_re = cv2.resize(leaf, dsize=None, fx=width_scale, fy=height_scale)
+    # fvfm_height = fvfm.shape[0]
+    # leaf_width = leaf_re.shape[1]
+    # fvfm_width = fvfm.shape[1]
+    # leaf_cro = crop_center(leaf_re, (leaf_width, fvfm_height))
+    # wid_scale = fvfm_width / leaf_width
+    # leaf_resize = cv2.resize(leaf_cro, dsize=None, fx=wid_scale, fy=1)
+    transhape = align_shape_horizontal(fvfm, leaf_re, 30, 20)
     leaf_img = cv2.imread("example/input_data/test.png")
     fvfm_img = cv2.imread("example/input_data/1-F.bmp")
     leaf_rotated = rotate_horizontal(leaf_img, leaf_cnt)
     fvfm_rotated = rotate_horizontal(fvfm_img, fvfm_cnt)
-    leaf_re_img = cv2.resize(leaf_rotated, dsize=None, fx=1, fy=scale)
-    leaf_cro_img = crop_center(leaf_re_img, (leaf_width, fvfm_height))
-    ll = transhape(leaf_cro_img)
-    img_over = cv2.addWeighted(src1=ll, alpha=1, src2=fvfm_rotated, beta=0.3, gamma=0)
-    cv2.imwrite("test.png", img_over)
+    # leaf_re_img = cv2.resize(leaf_rotated, dsize=None, fx=1, fy=scale)
+    # leaf_cro_img = crop_center(leaf_re_img, (leaf_width, fvfm_height))
+    # ll = transhape(leaf_cro_img)
+    # img_over = cv2.addWeighted(src1=ll, alpha=1, src2=fvfm_rotated, beta=0.3, gamma=0)
+    # cv2.imwrite("test.png", img_over)
     print("kkk")
 
 

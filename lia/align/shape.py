@@ -12,16 +12,13 @@ def align_shape_horizontal(std_img, var_img, width_range, slide_ratio):
     var_height, var_width = var_img.shape[:2]
     size = (std_width, std_height)
     if not std_height == var_height:
-        scale = std_height / var_height
-        var_img = cv2.resize(var_img, dsize=None, fx=scale, fy=scale)
+        raise ValueError("Height of image is different.")
     overlay_list = []
     for fx_scale in range(-width_range, width_range, 1):
         fx = (100 + fx_scale) / 100
         resized_img = cv2.resize(var_img, dsize=None, fx=fx, fy=1)
         resized_width = resized_img.shape[1]
         diff_width = resized_width - std_width
-        # koko kara you kento
-        # ==========================================
         if diff_width > 0:
             base_img = cv2.copyMakeBorder(
                 std_img, 0, 0, 0, diff_width, cv2.BORDER_CONSTANT
@@ -73,4 +70,3 @@ def align_shape_horizontal(std_img, var_img, width_range, slide_ratio):
             return re_slided_img
 
         return transhape
-        # =================================================
