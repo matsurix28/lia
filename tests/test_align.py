@@ -30,8 +30,17 @@ def main():
     # leaf_cro = crop_center(leaf_re, (leaf_width, fvfm_height))
     # wid_scale = fvfm_width / leaf_width
     # leaf_resize = cv2.resize(leaf_cro, dsize=None, fx=wid_scale, fy=1)
+    leaf_re_height, leaf_re_width = leaf_re.shape[:2]
+    fvfm_height = fvfm.shape[0]
+    if leaf_re_height > fvfm_height:
+        leaf_re = crop_center(leaf_re, (leaf_re_width, fvfm_height))
+    elif leaf_re_height < fvfm_height:
+        diff_height = fvfm_height - leaf_re_height
+        top = diff_height // 2
+        bottom = diff_height - top
+        leaf_re = cv2.copyMakeBorder(leaf_re, top, bottom, 0, 0, cv2.BORDER_CONSTANT)
     transhape = align_shape_horizontal(fvfm, leaf_re, 30, 20)
-    leaf_img = cv2.imread("example/input_data/test.png")
+    leaf_img = cv2.imread("example/input_data/1-L.JPG")
     fvfm_img = cv2.imread("example/input_data/1-F.bmp")
     leaf_rotated = rotate_horizontal(leaf_img, leaf_cnt)
     fvfm_rotated = rotate_horizontal(fvfm_img, fvfm_cnt)
@@ -45,7 +54,7 @@ def main():
 
 def extr():
     e = ExtractLeaf()
-    leaf_imgs, leaf_cnts = e.get_by_thresh("example/input_data/test.png")
+    leaf_imgs, leaf_cnts = e.get_by_thresh("example/input_data/1-L.JPG")
     fvfm_imgs, fvfm_cnts = e.get_by_thresh("example/input_data/1-F.bmp")
     leaf_bin = np.zeros(leaf_imgs[0].shape[:2], dtype=np.uint8)
     fvfm_bin = np.zeros(fvfm_imgs[0].shape[:2], dtype=np.uint8)
