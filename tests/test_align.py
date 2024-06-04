@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from lia.align.align_leaf import align_leaf
 from lia.align.shape import align_shape_horizontal
 from lia.basic.get.size import get_max_size
 from lia.basic.transform.crop import crop_center
@@ -15,7 +16,13 @@ from lia.detect.extract import ExtractLeaf
 
 def main():
     leaf, fvfm, leaf_cnt, fvfm_cnt = extr()
-    leaf__color_img = cv2.imread("example/input_data/test.png")
+    fvfm_out, leaf_out = align_leaf(fvfm, leaf, fvfm_cnt, leaf_cnt)
+    print("kk")
+
+
+def main2():
+    leaf, fvfm, leaf_cnt, fvfm_cnt = extr()
+    leaf__color_img = cv2.imread("example/input_data/1-L.JPG")
     fvfm__color_img = cv2.imread("example/input_data/1-F.bmp")
     leaf = rotate_horizontal(leaf, leaf_cnt)
     fvfm = rotate_horizontal(fvfm, fvfm_cnt)
@@ -73,7 +80,7 @@ def extr():
     cv2.drawContours(fvfm_bin, fvfm_cnts, 0, 255, -1)
     _, leaf = cv2.threshold(leaf_bin, 200, 255, cv2.THRESH_BINARY)
     _, fvfm = cv2.threshold(fvfm_bin, 200, 255, cv2.THRESH_BINARY)
-    return leaf, fvfm, leaf_cnts[0], fvfm_cnts[0]
+    return leaf_imgs[0], fvfm_imgs[0], leaf_cnts[0], fvfm_cnts[0]
 
 
 if __name__ == "__main__":
