@@ -7,7 +7,7 @@ from lia.basic.transform.crop import crop_center
 from lia.basic.transform.rotate import rotate_horizontal
 
 
-def align_leaf(std_img, var_img, std_cnt, var_cnt):
+def align_leaf(std_img, var_img, std_cnt, var_cnt, size_error=1.2):
     std_bin_img = np.zeros(std_img.shape[:2], dtype=np.uint8)
     var_bin_img = np.zeros(var_img.shape[:2], dtype=np.unit8)
     cv2.drawContours(std_bin_img, [std_cnt], 0, 255, -1)
@@ -16,8 +16,8 @@ def align_leaf(std_img, var_img, std_cnt, var_cnt):
     var_hori_img = rotate_horizontal(var_bin_img, var_cnt)
     std_max_height, std_max_width = get_max_size(std_hori_img)
     var_max_height, var_max_width = get_max_size(var_hori_img)
-    std_crop_size = (int(std_max_width) * 1.2, int(std_max_height) * 1.2)
-    var_crop_size = (int(var_max_width) * 1.2, int(var_max_height) * 1.2)
+    std_crop_size = (int(std_max_width) * size_error, int(std_max_height) * size_error)
+    var_crop_size = (int(var_max_width) * size_error, int(var_max_height) * size_error)
     std_crop_img = crop_center(std_hori_img, std_crop_size)
     var_crop_img = crop_center(var_hori_img, var_crop_size)
     y_scale = std_max_height / var_max_height
