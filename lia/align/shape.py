@@ -6,6 +6,33 @@ from lia.basic.transform.slide import slide_horizontal
 
 
 def align_shape_horizontal(std_img, var_img, width_range, slide_ratio):
+    """Scale and move horizontally to align images.
+
+    Parameters
+    ----------
+    std_img : numpy.ndarray
+        Standard image.
+    var_img : numpy.ndarray
+        Input image to be scaled.
+    width_range : int
+        Scaling factor.
+    slide_ratio : int
+        Percentage to move.
+
+    Returns
+    -------
+    transhape: function
+        Scale and move function.
+
+    Raises
+    ------
+    ValueError
+        If input image is not binary image.
+    ValueError
+        If height of images are different.
+    ValueError
+        If contours don't overlap.
+    """
     if (not len(std_img.shape) == 2) or (not len(var_img.shape) == 2):
         raise ValueError("Input images should be binary image.")
     std_height, std_width = std_img.shape[:2]

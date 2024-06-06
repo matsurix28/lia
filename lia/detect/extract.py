@@ -47,7 +47,7 @@ class ExtractLeaf:
         img : numpy.ndarray
             Input color image.
         cnts : [[[int, int]], ...]
-            List of ontours.
+            List of contours.
 
         Returns
         -------

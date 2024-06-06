@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from lia.align.align_leaf import align_leaf
+from lia.align.overlap import align_leaf_horizontal
 from lia.align.shape import align_shape_horizontal
 from lia.basic.get.size import get_max_size
 from lia.basic.transform.crop import crop_center
@@ -16,7 +16,7 @@ from lia.detect.extract import ExtractLeaf
 
 def main():
     leaf, fvfm, leaf_cnt, fvfm_cnt = extr()
-    fvfm_out, leaf_out = align_leaf(fvfm, leaf, fvfm_cnt, leaf_cnt)
+    fvfm_out, leaf_out = align_leaf_horizontal(fvfm, leaf, fvfm_cnt, leaf_cnt)
     print("kk")
 
 

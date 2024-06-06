@@ -7,19 +7,45 @@ from lia.basic.transform.crop import crop_center
 from lia.basic.transform.rotate import rotate_horizontal
 
 SIZE_ERROR = 1.2
-WIDTH_RANGE = 20
+SCALING_FACTOR = 20
 SLIDE_RANGE = 10
 
 
-def align_leaf(
+def align_leaf_horizontal(
     std_img,
     var_img,
     std_cnt,
     var_cnt,
     size_error=SIZE_ERROR,
-    width_range=WIDTH_RANGE,
+    scaling_factor=SCALING_FACTOR,
     slide_range=SLIDE_RANGE,
 ):
+    """Scale and move the leaves horizontally so that they just overlap.
+
+    Parameters
+    ----------
+    std_img : numpy.ndarray
+        Input standard image.
+    var_img : numpy.ndarray
+        Input image to be scaled.
+    std_cnt : [[[int, int]], ...]
+        Contours of standard image.
+    var_cnt : [[[int, int], ...]]
+        Contours of image to be scaled.
+    size_error : float, optional
+        Error in approximate contour of leaf.
+    scaling_factor : int, optional
+        Pecentage to be scaled.
+    slide_range : int, optional
+        Percentage to move.
+
+    Returns
+    -------
+    std_crop_img: numpy.ndarray
+        Standard image cropped around leaf.
+    var_align_img: numpy.ndarray
+        Output adjusted image.
+    """
     std_bin_img = np.zeros(std_img.shape[:2], dtype=np.uint8)
     var_bin_img = np.zeros(var_img.shape[:2], dtype=np.uint8)
     cv2.drawContours(std_bin_img, [std_cnt], 0, 255, -1)
@@ -68,7 +94,7 @@ def align_leaf(
         input_var_img = var_bin_resized_img
         var_color_img = var_resized_img
     transhape = align_shape_horizontal(
-        std_bin_crop_img, input_var_img, width_range, slide_range
+        std_bin_crop_img, input_var_img, scaling_factor, slide_range
     )
-    output_var_img = transhape(var_color_img)
-    return std_crop_img, output_var_img
+    var_align_img = transhape(var_color_img)
+    return std_crop_img, var_align_img
