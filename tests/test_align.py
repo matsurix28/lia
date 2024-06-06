@@ -5,8 +5,8 @@ import cv2
 import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from lia.align.overlap import align_leaf_horizontal
-from lia.align.shape import align_shape_horizontal
+from lia.align.overlap import asjust_shape_horizontal
+from lia.align.shape import get_adjust_func
 from lia.basic.get.size import get_max_size
 from lia.basic.transform.crop import crop_center
 from lia.basic.transform.rotate import rotate_horizontal
@@ -16,7 +16,7 @@ from lia.detect.extract import ExtractLeaf
 
 def main():
     leaf, fvfm, leaf_cnt, fvfm_cnt = extr()
-    fvfm_out, leaf_out = align_leaf_horizontal(fvfm, leaf, fvfm_cnt, leaf_cnt)
+    fvfm_out, leaf_out = asjust_shape_horizontal(fvfm, leaf, fvfm_cnt, leaf_cnt)
     print("kk")
 
 
@@ -57,7 +57,7 @@ def main2():
         leaf_color_re = cv2.copyMakeBorder(
             leaf_color_re, top, bottom, 0, 0, cv2.BORDER_CONSTANT
         )
-    transhape = align_shape_horizontal(fvfm, leaf_re, 30, 20)
+    transhape = get_adjust_func(fvfm, leaf_re, 30, 20)
     leaf_color_after = transhape(leaf_color_re)
     img_over = cv2.addWeighted(
         src1=leaf_color_after, src2=fvfm_rotated, alpha=1, beta=0.3, gamma=0

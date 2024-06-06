@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from lia.align.shape import align_shape_horizontal
+from lia.align.shape import get_adjust_func
 from lia.basic.get.size import get_max_size
 from lia.basic.transform.crop import crop_center
 from lia.basic.transform.rotate import rotate_horizontal
@@ -11,7 +11,7 @@ SCALING_FACTOR = 20
 SLIDE_RANGE = 10
 
 
-def align_leaf_horizontal(
+def asjust_shape_horizontal(
     std_img,
     var_img,
     std_cnt,
@@ -93,7 +93,7 @@ def align_leaf_horizontal(
     else:
         input_var_img = var_bin_resized_img
         var_color_img = var_resized_img
-    transhape = align_shape_horizontal(
+    transhape = get_adjust_func(
         std_bin_crop_img, input_var_img, scaling_factor, slide_range
     )
     var_align_img = transhape(var_color_img)

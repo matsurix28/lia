@@ -5,7 +5,7 @@ from lia.basic.transform.crop import crop_center, crop_left
 from lia.basic.transform.slide import slide_horizontal
 
 
-def align_shape_horizontal(std_img, var_img, width_range, slide_ratio):
+def get_adjust_func(std_img, var_img, width_range, slide_ratio):
     """Scale and move horizontally to align images.
 
     Parameters
