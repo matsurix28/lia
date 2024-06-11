@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from lia.align.shape import get_adjust_func
+from lia.align.get_func import get_align_hori_func
 from lia.basic.get.size import get_max_size
 from lia.basic.transform.crop import crop_center
 from lia.basic.transform.rotate import rotate_horizontal
@@ -93,7 +93,7 @@ def asjust_shape_horizontal(
     else:
         input_var_img = var_bin_resized_img
         var_color_img = var_resized_img
-    transhape = get_adjust_func(
+    transhape = get_align_hori_func(
         std_bin_crop_img, input_var_img, scaling_factor, slide_range
     )
     var_align_img = transhape(var_color_img)
