@@ -6,7 +6,7 @@ import cv2
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from lia.detect.detect_fvfm import get_bar_area, read_fvfm_value
-from lia.detect.extract import ExtractFvFm
+from lia.core.extract import ExtractFvFm
 
 
 def main():

@@ -11,8 +11,7 @@ from lia.basic.get.size import get_max_size
 from lia.basic.transform.crop import crop_center
 from lia.basic.transform.rotate import rotate_horizontal
 from lia.detect import extract_leaf_by_thresh
-from lia.detect.extract import ExtractLeaf
-
+from lia.core.extract import ExtractLeaf
 
 def main():
     leaf, fvfm, leaf_cnt, fvfm_cnt = extr()

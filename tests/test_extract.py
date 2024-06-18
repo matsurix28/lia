@@ -2,7 +2,7 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from lia.detect.extract import ExtractLeaf
+from lia.core.extract import ExtractLeaf
 
 
 def main():
