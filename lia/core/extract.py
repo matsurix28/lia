@@ -89,13 +89,13 @@ class ExtractLeaf:
         else:
             raise ValueError(f"Cannot access '{input_path}': No such file or directory")
 
-    def get_by_thresh(self, input_path):
+    def get_by_thresh(self, input):
         """Extract leaf by detecting contours.
 
         Parameters
         ----------
-        input_path : str
-            Input image path.
+        input : str or numpy.ndarray
+            Input image path or image in ndarray format.
 
         Returns
         -------
@@ -104,7 +104,12 @@ class ExtractLeaf:
         leaf_cnt_candidates : [(array[[[int, int]], ...], ...), ...]
             Contours list of leaf candidates.
         """
-        img = self.__input_img(input_path)
+        if type(input) == str:
+            img = self.__input_img(input)
+        elif type(input) == np.ndarray:
+            img = input
+        else:
+            raise TypeError("Please enter path or image in ndarray format.")
         leaf_cnt_candidates = extract_leaf_by_thresh(
             img,
             self.thresh,
@@ -125,13 +130,13 @@ class ExtractLeaf:
         # leaf_cnt_imgs = self.__draw_cnts_area(img, leaf_cnt_candidates)
         return leaf_cnt_imgs, leaf_cnt_candidates
 
-    def get_by_color(self, input_path):
+    def get_by_color(self, input):
         """Extract leaf by color range.
 
         Parameters
         ----------
-        input_path : str
-            Input image path.
+        input : str or numpy.ndarray
+            Input image path or image in ndarray format.
 
         Returns
         -------
@@ -140,7 +145,12 @@ class ExtractLeaf:
         leaf_cnt : (array[[[int, int]],...])
             Leaf contours.
         """
-        img = self.__input_img(input_path)
+        if type(input) == str:
+            img = self.__input_img(input)
+        elif type(input) == np.ndarray:
+            img = input
+        else:
+            raise TypeError("Please enter path or image in ndarray format.")
         leaf_cnt = extract_leaf_by_color(
             img,
             self.leaf_color_lower,
