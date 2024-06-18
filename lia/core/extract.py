@@ -24,7 +24,7 @@ class ExtractLeaf:
     """Extract leaf contours from image."""
 
     def __init__(self):
-        # Set default value
+        # Set default value.
         self.min_cnts_ratio = MIN_CNTS_RATIO
         self.diff_ellipse_size = DIFF_ELLIPSE_SIZE
         self.beyond_error_ellipse = BEYOND_ERROR_ELLIPSE

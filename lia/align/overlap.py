@@ -11,7 +11,7 @@ SCALING_FACTOR = 20
 SLIDE_RANGE = 10
 
 
-def asjust_shape_horizontal(
+def adjust_shape_horizontal(
     std_img,
     var_img,
     std_cnt,
@@ -41,9 +41,9 @@ def asjust_shape_horizontal(
 
     Returns
     -------
-    std_crop_img: numpy.ndarray
+    std_crop_img : numpy.ndarray
         Standard image cropped around leaf.
-    var_align_img: numpy.ndarray
+    var_align_img : numpy.ndarray
         Output adjusted image.
     """
     std_bin_img = np.zeros(std_img.shape[:2], dtype=np.uint8)

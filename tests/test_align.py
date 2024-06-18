@@ -6,16 +6,17 @@ import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from lia.align.get_func import get_align_hori_func
-from lia.align.overlap import asjust_shape_horizontal
+from lia.align.overlap import adjust_shape_horizontal
 from lia.basic.get.size import get_max_size
 from lia.basic.transform.crop import crop_center
 from lia.basic.transform.rotate import rotate_horizontal
 from lia.detect import extract_leaf_by_thresh
 from lia.core.extract import ExtractLeaf
 
+
 def main():
     leaf, fvfm, leaf_cnt, fvfm_cnt = extr()
-    fvfm_out, leaf_out = asjust_shape_horizontal(fvfm, leaf, fvfm_cnt, leaf_cnt)
+    fvfm_out, leaf_out = adjust_shape_horizontal(fvfm, leaf, fvfm_cnt, leaf_cnt)
     print("kk")
 
 

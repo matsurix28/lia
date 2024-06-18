@@ -60,3 +60,23 @@ re_wid = re_img.shape[1]
 diff = wid - re_wid
 fill_img = cv2.copyMakeBorder(re_img, 0, 0, 0, diff, cv2.BORDER_CONSTANT)
 cv2.imwrite("test.png", fill_img)
+
+
+def arg2(**kwargs):
+    for key, value in kwargs.items():
+        print("kore ha arg2")
+        print(key)
+        print(value)
+
+
+def argargs(**kwargs):
+    count = 0
+    for key, value in kwargs.items():
+        print(count)
+        print(key)
+        print(value)
+        count += 1
+    arg2(**kwargs)
+
+
+argargs(a=12, b="aaa")
