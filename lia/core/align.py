@@ -114,14 +114,14 @@ class AlignLeaf:
         else:
             raise TypeError("Please enter path or image in ndarray format.")
         if std_cnt is None:
-            _, std_cnt = self.extract(std_img)
+            _, std_cnts = self.extract.get_by_thresh(std_img)
         if var_cnt is None:
-            _, var_cnt = self.extract(var_img)
+            _, var_cnts = self.extract.get_by_thresh(var_img)
         std_crop_img, var_align_img = adjust_shape_horizontal(
             std_img,
             var_img,
-            std_cnt,
-            var_cnt,
+            std_cnts[0],
+            var_cnts[0],
             self.size_error,
             self.scaling_factor,
             self.slide_range,
