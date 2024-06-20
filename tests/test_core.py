@@ -10,7 +10,7 @@ from lia import AlignLeaf
 
 def main():
     al = AlignLeaf()
-    al.horizontal("example/input_data/1-F.bmp", "example/input_data/1-L.JPG")
+    al.horizontal("example/input_data/1-F.bmp", "example/input_data/test.png")
 
 
 if __name__ == "__main__":
