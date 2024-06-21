@@ -5,7 +5,10 @@ import numpy as np
 
 
 class ImageCore:
-    def __input_img(self, input):
+    def __init__(self):
+        pass
+
+    def input_img(self, input):
         """Input image by cv2 format.
 
         Parameters
@@ -37,7 +40,7 @@ class ImageCore:
             else:
                 raise ValueError(f"Cannot access '{input}': No such file.")
 
-    def __get_file_name(self, path):
+    def get_file_name(self, path):
         """Get file name.
 
         Parameters
