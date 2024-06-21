@@ -16,14 +16,16 @@ from lia.basic.get._consts import (
     THRESH,
     WHITE_BG_THRESH,
 )
+from lia.core.base import ImageCore
 from lia.detect import extract_leaf_by_color, extract_leaf_by_thresh
 from lia.detect.detect_fvfm import BAR_AREA_RATIO, WHITE_INV_THRESH, get_fvfm_list
 
 
-class ExtractLeaf:
+class ExtractLeaf(ImageCore):
     """Extract leaf contours from image."""
 
     def __init__(self):
+        super().__init__()
         # Set default value.
         self.min_cnts_ratio = MIN_CNTS_RATIO
         self.diff_ellipse_size = DIFF_ELLIPSE_SIZE
@@ -59,36 +61,6 @@ class ExtractLeaf:
         res_img = cv2.bitwise_and(img, mask)
         return res_img
 
-    def __input_img(self, input_path):
-        """Input image by cv2 format.
-
-        Parameters
-        ----------
-        input_path : str
-            Input image path.
-
-        Returns
-        -------
-        img : numpy.ndarray
-            cv2 format image.
-
-        Raises
-        ------
-        TypeError
-            if input is not image file.
-        ValueError
-            No such file.
-        """
-        if os.path.isfile(input_path):
-            img = cv2.imread(input_path)
-            if not isinstance(img, np.ndarray):
-                raise TypeError(f"'{input_path}' is not an image file")
-            else:
-                self.img_name = os.path.splitext(os.path.basename(input_path))[0]
-                return img
-        else:
-            raise ValueError(f"Cannot access '{input_path}': No such file or directory")
-
     def get_by_thresh(self, input):
         """Extract leaf by detecting contours.
 
@@ -104,12 +76,7 @@ class ExtractLeaf:
         leaf_cnt_candidates : [(array[[[int, int]], ...], ...), ...]
             Contours list of leaf candidates.
         """
-        if type(input) == str:
-            img = self.__input_img(input)
-        elif type(input) == np.ndarray:
-            img = input
-        else:
-            raise TypeError("Please enter path or image in ndarray format.")
+        img = self.input_img(input)
         leaf_cnt_candidates = extract_leaf_by_thresh(
             img,
             self.thresh,
@@ -191,53 +158,13 @@ class ExtractLeaf:
         leaf_color_upper : (int, int, int)
             Upper of color range.
         """
-        for key, value in kwargs.items():
-            key_exist_cmd = f"is_key = self.{key}"
-            try:
-                exec(key_exist_cmd)
-            except:
-                continue
-            if type(value) == str:
-                exec_cmd = f"self.{key} = '{value}'"
-            elif type(value) == int:
-                exec_cmd = f"self.{key} = {value}"
-            exec(exec_cmd)
+        super().set_param(**kwargs)
 
 
-class ExtractFvFm:
+class ExtractFvFm(ImageCore):
     def __init__(self) -> None:
         self.white_inv_thresh = WHITE_INV_THRESH
         self.bar_area_ratio = BAR_AREA_RATIO
-
-    def __input_img(self, input_path):
-        """Input image by cv2 format.
-
-        Parameters
-        ----------
-        input_path : str
-            Input image path.
-
-        Returns
-        -------
-        img : numpy.ndarray
-            cv2 format image.
-
-        Raises
-        ------
-        TypeError
-            if input is not image file.
-        ValueError
-            No such file.
-        """
-        if os.path.isfile(input_path):
-            img = cv2.imread(input_path)
-            if not isinstance(img, np.ndarray):
-                raise TypeError(f"'{input_path}' is not an image file")
-            else:
-                self.img_name = os.path.splitext(os.path.basename(input_path))[0]
-                return img
-        else:
-            raise ValueError(f"Cannot access '{input_path}': No such file or directory")
 
     def get_list(self, input_path):
         """Get list of Fv/Fm value and color.
@@ -252,7 +179,7 @@ class ExtractFvFm:
         fvfm_list : [[[int, int, int], int], ...]
             List of color and Fv/Fm value.
         """
-        img = self.__input_img(input_path)
+        img = self.input_img(input_path)
         fvfm_list = get_fvfm_list(img, self.white_inv_thresh, self.bar_area_ratio)
         return fvfm_list
 
@@ -266,14 +193,4 @@ class ExtractFvFm:
         bar_area_ratio : int
             Ratio of minimum bar size.
         """
-        for key, value in kwargs.items():
-            key_exist_cmd = f"is_key = self.{key}"
-            try:
-                exec(key_exist_cmd)
-            except:
-                continue
-            if type(value) == str:
-                exec_cmd = f"self.{key} = '{value}'"
-            elif type(value) == int:
-                exec_cmd = f"self.{key} = {value}"
-            exec(exec_cmd)
+        super().set_param(**kwargs)

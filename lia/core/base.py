@@ -63,3 +63,17 @@ class ImageCore:
             return file_name
         else:
             raise ValueError(f"'{path}' is not file.")
+
+    def set_param(self, **kwargs):
+        """Set parameters."""
+        for key, value in kwargs.items():
+            key_exist_cmd = f"is_key = self.{key}"
+            try:
+                exec(key_exist_cmd)
+            except:
+                continue
+            if type(value) == str:
+                exec_cmd = f"self.{key} = '{value}'"
+            elif type(value) == int:
+                exec_cmd = f"self.{key} = {value}"
+            exec(exec_cmd)

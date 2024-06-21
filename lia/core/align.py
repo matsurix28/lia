@@ -10,45 +10,17 @@ from lia.align.overlap import (
     SLIDE_RANGE,
     adjust_shape_horizontal,
 )
+from lia.core.base import ImageCore
 
 
-class AlignLeaf:
+class AlignLeaf(ImageCore):
     def __init__(self):
+        super().__init__()
         # Set default value.
         self.size_error = SIZE_ERROR
         self.scaling_factor = SCALING_FACTOR
         self.slide_range = SLIDE_RANGE
         self.extract = ExtractLeaf()
-
-    def __input_img(self, input_path):
-        """Input image by cv2 format.
-
-        Parameters
-        ----------
-        input_path : str
-            Input image path.
-
-        Returns
-        -------
-        img : numpy.ndarray
-            cv2 format image.
-
-        Raises
-        ------
-        TypeError
-            If input path is not image file.
-        ValueError
-            No such file.
-        """
-        if os.path.isfile(input_path):
-            img = cv2.imread(input_path)
-            if not isinstance(img, np.ndarray):
-                raise TypeError(f"'{input_path}' is not an image file")
-            else:
-                self.img_name = os.path.splitext(os.path.basename(input_path))[0]
-                return img
-        else:
-            raise ValueError(f"Cannot access '{input_path}': No such file or directory")
 
     def set_param(self, **kwargs):
         """Set parameters.
@@ -62,17 +34,7 @@ class AlignLeaf:
         slide_range : int
             Percentage to move.
         """
-        for key, value in kwargs.items():
-            key_exist_cmd = f"is_key = self.{key}"
-            try:
-                exec(key_exist_cmd)
-            except:
-                continue
-            if type(value) == str:
-                exec_cmd = f"self.{key} = '{value}'"
-            elif type(value) == int:
-                exec_cmd = f"self.{key} = {value}"
-            exec(exec_cmd)
+        super().set_param(**kwargs)
         self.extract.set_param(**kwargs)
 
     def horizontal(self, std_input, var_input, std_cnt=None, var_cnt=None):
@@ -101,18 +63,8 @@ class AlignLeaf:
         TypeError
             If input is not image.
         """
-        if type(std_input) == str:
-            std_img = self.__input_img(std_input)
-        elif type(std_input) == np.ndarray:
-            std_img = std_input
-        else:
-            raise TypeError("Please enter path or image in ndarray format.")
-        if type(var_input) == str:
-            var_img = self.__input_img(var_input)
-        elif type(var_input) == np.ndarray:
-            var_img = var_input
-        else:
-            raise TypeError("Please enter path or image in ndarray format.")
+        std_img = self.input_img(std_input)
+        var_img = self.input_img(var_input)
         if std_cnt is None:
             _, std_cnts = self.extract.get_by_thresh(std_img)
         if var_cnt is None:
