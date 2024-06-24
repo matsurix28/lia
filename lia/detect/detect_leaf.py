@@ -68,7 +68,7 @@ def extract_leaf_by_thresh(
         If leaf shape contours could not be detected.
     """
     # Check background color.
-    if background.is_black(img):
+    if background.is_background_black(img):
         # Sort H, S, and V in order of clarity of leaf outline, and find contours from each
         cnts_list = get_cnts_from_hsv(
             img,

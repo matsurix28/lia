@@ -2,7 +2,7 @@ COLOR_THRESH1 = 0
 COLOR_THRESH2 = 0
 
 
-def over_thresh(
+def pickup_over_thresh(
     color1, color2, color_thresh1=COLOR_THRESH1, color_thresh2=COLOR_THRESH2
 ):
     """Pick up from an array of colors that are both above the threshold.

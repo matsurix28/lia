@@ -3,7 +3,7 @@ import cv2
 from ._consts import BACKGROUND_AREA, BACKGROUND_THRESH
 
 
-def is_black(img):
+def is_background_black(img):
     """Check if the background color is black or white.
 
     Parameters

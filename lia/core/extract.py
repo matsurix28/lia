@@ -112,12 +112,7 @@ class ExtractLeaf(ImageCore):
         leaf_cnt : (array[[[int, int]],...])
             Leaf contours.
         """
-        if type(input) == str:
-            img = self.__input_img(input)
-        elif type(input) == np.ndarray:
-            img = input
-        else:
-            raise TypeError("Please enter path or image in ndarray format.")
+        img = self.input_img(input)
         leaf_cnt = extract_leaf_by_color(
             img,
             self.leaf_color_lower,

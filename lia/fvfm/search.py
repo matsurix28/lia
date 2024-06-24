@@ -1,4 +1,4 @@
-from lia.color.search import closest_color
+from lia.color.search import search_closest_color
 
 
 def search_fvfm(leaf_color, fvfm_color, fvfm_list):
@@ -25,5 +25,5 @@ def search_fvfm(leaf_color, fvfm_color, fvfm_list):
     """
     if leaf_color.shape != fvfm_color.shape:
         raise ValueError("Sizes differ.")
-    _, fvfm = closest_color(fvfm_color, leaf_color, fvfm_list)
+    _, fvfm = search_closest_color(fvfm_color, leaf_color, fvfm_list)
     return fvfm

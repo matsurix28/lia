@@ -7,7 +7,7 @@ import numpy as np
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from lia.basic.get.size import get_max_size
 from lia.basic.transform.crop import crop_center, crop_left
-from lia.basic.transform.rotate import rotate, rotate_horizontal
+from lia.basic.transform.rotation import rotate, rotate_horizontal
 from lia.basic.transform.slide import slide_horizontal
 from lia.detect import extract_leaf_by_thresh
 

@@ -3,7 +3,6 @@ import os
 import cv2
 import numpy as np
 
-from lia import ExtractLeaf
 from lia.align.overlap import (
     SCALING_FACTOR,
     SIZE_ERROR,
@@ -11,6 +10,7 @@ from lia.align.overlap import (
     adjust_shape_horizontal,
 )
 from lia.core.base import ImageCore
+from lia.core.extract import ExtractLeaf
 
 
 class AlignLeaf(ImageCore):

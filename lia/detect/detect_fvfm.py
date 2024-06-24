@@ -3,11 +3,11 @@ import re
 import statistics
 
 import cv2
-import easyocr
 import numpy as np
 
-# from lia.basic.get import get_cnts, get_white_bg_binary_img
 from lia.basic.get._consts import WHITE_INV_THRESH
+from lia.basic.get.cnts import get_cnts
+from lia.basic.get.image import get_white_bg_binary_img
 
 BAR_AREA_RATIO = 100
 
@@ -30,6 +30,8 @@ def read_fvfm_value(img):
     ValueError
         If less than 2 value.
     """
+    import easyocr
+
     reader = easyocr.Reader(["en"])
     text = reader.readtext(img)
     fvfm_value_list = []

@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def closest_color(color_list, query_list, value_list=None):
+def search_closest_color(color_list, query_list, value_list=None):
     """Search closest color.
 
     Parameters

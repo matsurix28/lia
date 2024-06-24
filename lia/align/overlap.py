@@ -4,7 +4,7 @@ import numpy as np
 from lia.align.get_func import get_align_hori_func
 from lia.basic.get.size import get_max_size
 from lia.basic.transform.crop import crop_center
-from lia.basic.transform.rotate import rotate_horizontal
+from lia.basic.transform.rotation import rotate_horizontal
 
 SIZE_ERROR = 1.2
 SCALING_FACTOR = 20
