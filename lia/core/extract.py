@@ -166,8 +166,8 @@ class ExtractFvFm(ImageCore):
 
         Parameters
         ----------
-        input_path : str
-            Path of input image.
+        input_path : str or numpy.ndarray
+            Input image or its path.
 
         Returns
         -------

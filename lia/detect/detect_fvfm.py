@@ -38,7 +38,7 @@ def read_fvfm_value(img):
     for word in text:
         if re.compile("0(\.|,)\d{2}$").match(word[1]):
             pos = (word[0][3][1] - word[0][0][1]) / 2 + word[0][0][1]
-            value = int(float(word[1].replace(",", ".")) * 1000)
+            value = float(word[1].replace(",", "."))
             fvfm_value_list.append([pos, value])
     if len(fvfm_value_list) >= 2:
         fvfm_value_list.sort(key=lambda x: x[0])
@@ -138,8 +138,9 @@ def get_fvfm_list(
     center_x = int(bar_area[0] + (bar_area[2] / 2))
     fvfm_value_list = read_fvfm_value(img)
     std_fvfm_pos_y = fvfm_value_list[0][0]
-    std_fvfm_val = fvfm_value_list[0][1]
-    scale = calculate_scale(fvfm_value_list)
+    std_fvfm_val = int(fvfm_value_list[0][1] * 1000)
+    scale_fvfm_list = [[x[0], int(x[1] * 1000)] for x in fvfm_value_list]
+    scale = calculate_scale(scale_fvfm_list)
     upper_num = int((std_fvfm_pos_y - top) / scale)
     lower_num = int((bottom - std_fvfm_pos_y) / scale)
     fvfm_list = []
@@ -147,12 +148,12 @@ def get_fvfm_list(
         fvfm_value = std_fvfm_val + i
         pos_y = int(std_fvfm_pos_y - (i * scale))
         color = img[pos_y, center_x].tolist()
-        fvfm_list.append([color, fvfm_value])
+        fvfm_list.append([color, fvfm_value / 1000])
     for i in range(1, lower_num + 1):
         fvfm_value = std_fvfm_val - i
         pos_y = int(std_fvfm_pos_y + (i * scale))
         color = img[pos_y, center_x].tolist()
-        fvfm_list.append([color, fvfm_value])
+        fvfm_list.append([color, fvfm_value / 1000])
     if len(fvfm_list) > 0:
         fvfm_list.sort(key=lambda x: x[1], reverse=True)
         return fvfm_list
