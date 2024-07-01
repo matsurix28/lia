@@ -20,7 +20,6 @@ class AlignLeaf(ImageCore):
         self.size_error = SIZE_ERROR
         self.scaling_factor = SCALING_FACTOR
         self.slide_range = SLIDE_RANGE
-        self.extract = ExtractLeaf()
 
     def set_param(self, **kwargs):
         """Set parameters.
@@ -35,9 +34,8 @@ class AlignLeaf(ImageCore):
             Percentage to move.
         """
         super().set_param(**kwargs)
-        self.extract.set_param(**kwargs)
 
-    def horizontal(self, std_input, var_input, std_cnt=None, var_cnt=None):
+    def horizontal(self, std_input, var_input, std_cnt, var_cnt):
         """Scale and move the leaf horizontally so that they just overlap.
 
         Parameters
@@ -46,9 +44,9 @@ class AlignLeaf(ImageCore):
             Input standard image or its path.
         var_input : srt or numpy.ndarray
             Input image to be scaled or its path.
-        std_cnt : [[[int, int]], ...], optional
+        std_cnt : [[[int, int]], ...]
             Contours of std_input.
-        var_cnt : [[[int, int], ...]], optional
+        var_cnt : [[[int, int], ...]]
             Contours of var_inupt.
 
         Returns
@@ -65,15 +63,11 @@ class AlignLeaf(ImageCore):
         """
         std_img = self.input_img(std_input)
         var_img = self.input_img(var_input)
-        if std_cnt is None:
-            _, std_cnts = self.extract.get_by_thresh(std_img)
-        if var_cnt is None:
-            _, var_cnts = self.extract.get_by_thresh(var_img)
         std_crop_img, var_align_img = adjust_shape_horizontal(
             std_img,
             var_img,
-            std_cnts[0],
-            var_cnts[0],
+            std_cnt,
+            var_cnt,
             self.size_error,
             self.scaling_factor,
             self.slide_range,

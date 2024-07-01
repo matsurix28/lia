@@ -80,3 +80,22 @@ def argargs(**kwargs):
 
 
 argargs(a=12, b="aaa")
+
+col1 = ["aa", "bb", "cc"]
+col2 = ["dd", "ee", "ff"]
+cols = [[col1[i], col2[i]] for i in range(3)]
+print(cols)
+
+from multiprocessing import Pool
+
+from test2 import test_func
+
+
+def wrap_func(args):
+    input1, input2, thr, env = test_func(*args)
+    return input1, input2, thr, env
+
+
+with Pool(3) as p:
+    res = p.map(wrap_func, cols)
+print(res)
