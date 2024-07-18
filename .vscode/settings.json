@@ -1,0 +1,17 @@
+{
+    "python.testing.pytestEnabled": true,
+    "python.testing.autoTestDiscoverOnSaveEnabled": true,
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
+    
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "autoDocstring.docstringFormat": "numpy"
+}
